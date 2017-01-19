@@ -1,4 +1,4 @@
-# strawberry_RNA-seq
+# AMF-strawberry_RNA-seq
 
 There's no transciptome for the octoploid - will need to build one.
 
