@@ -18,9 +18,13 @@ splitfq.sh
 trimmomatic
 ### Join reads and quality filter
 usearch
-### Phix rRNA/cloroplast filter
+### Phix rRNA/cloroplast/mitochondion filter
 bowtie2 or ublast
-### Dereplicate 
-dereplicate.sh
+### Dereplicate/normalise or something else
+dereplicate.sh (this may mess up some of the trinity processing as it uses sequence depth to guess isoforms)
+normalise.sh (using trinity) 
 ### Assemble
 trinity
+### Align
+Dereplicate (useful here) assembled output and align to genome.
+
