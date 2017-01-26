@@ -17,13 +17,22 @@ splitfq.sh
 ```
 ### Trim adapters
 trimmomatic
-### Join reads and quality filter
+### Quality filter and joining
 usearch
 ### Phix rRNA/cloroplast/mitochondion filter
-bowtie2 or ublast
+bowtie2 
 ### Dereplicate/normalise or something else
 dereplicate.sh (this may mess up some of the trinity processing as it uses sequence depth to guess isoforms)
 normalise.sh (using trinity) 
+### Align to genome
+star 
+```
+### Generate index
+STAR --runMode genomeGenerate --genomeDir $OUTDIR --genomeFastaFiles redgauntlet.fa --sjdbGTFfile redgauntlet.gff --genomeChrBinNbits 11
+### Align reads
+STAR --genomeDir $REF --outFileNamePrefix $PREFIX --readFilesIn $INFASTQ --outSAMtype BAM SortedByCoordinate  
+```
+
 ### Assemble
 trinity
 ### Align
