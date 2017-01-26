@@ -23,7 +23,12 @@ usearch
 bowtie2 
 ### Dereplicate/normalise or something else
 dereplicate.sh (this may mess up some of the trinity processing as it uses sequence depth to guess isoforms)
-normalise.sh (using trinity) 
+normalise.sh (using trinity)
+```
+PIPELINE.sh -c normalise --seqType fq --JM 32 --max_cov 10 --left $FORWARD --right $REVERSE --pairs_together --output $OUTDIR --CPU 16 
+```
+
+
 ### Align to genome
 star 
 ```
