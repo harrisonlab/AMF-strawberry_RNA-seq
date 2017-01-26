@@ -43,3 +43,8 @@ trinity
 ### Align
 Dereplicate (useful here) assembled output and align to genome.
 
+Find sequence lengths
+```
+awk '/^>/ {if (seqlen){print (x,seqlen)}; x=$1 ;seqlen=0;next; } { seqlen += length($0)}END{print (x,seqlen)}' fasta.fa
+```
+
