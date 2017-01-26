@@ -25,7 +25,7 @@ bowtie2
 dereplicate.sh (this may mess up some of the trinity processing as it uses sequence depth to guess isoforms)
 normalise.sh (using trinity)
 ```
-PIPELINE.sh -c normalise --seqType fa --JM 32G --max_cov 25 --left_list F --right_list R --pairs_together --output $OUTDIR --CPU 16 
+PIPELINE.sh -c normalise fa --JM 320G --max_cov 25 --left F --right R --pairs_together --output $OUTDIR --CPU 16 
 ```
 
 
@@ -46,6 +46,18 @@ STAR \
 ```
 
 ### Assemble
+Ref-guided
+```
+PIPELINE.sh -c assemble \
+ --genome_guided_bam $STRAWBERRY/aligned/D20.2Aligned.sortedByCoord.out.bam \
+ --genome_guided_max_intron 10000 \
+ --max_memory 320G \
+ --CPU 16 \
+ --grid_node_CPU 2 \
+ --grid_node_max_memory 2G \
+ --output $STRAWBERRY/assembled/trinity_D20
+```
+
 trinity
 ### Align
 Dereplicate (useful here) assembled output and align to genome.
