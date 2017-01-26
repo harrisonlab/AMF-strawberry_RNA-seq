@@ -35,7 +35,14 @@ star
 ### Generate index
 STAR --runMode genomeGenerate --genomeDir $OUTDIR --genomeFastaFiles redgauntlet.fa --sjdbGTFfile redgauntlet.gff --genomeChrBinNbits 11
 ### Align reads
-STAR --genomeDir $REF --outFileNamePrefix $PREFIX --readFilesIn $INFASTQ --outSAMtype BAM SortedByCoordinate  
+STAR \
+ --genomeDir $STRAWBERRY/genome/star_octo/ \
+ --outFileNamePrefix $STRAWBERRY/aligned/D20.2 \
+ --readFilesIn  $STRAWBERRY/normalised/left.norm.fa $STRAWBERRY/normalised/right.norm.fa \
+ --runThreadN 16 \
+ --outSAMtype BAM SortedByCoordinate \
+ --outFilterMatchNminOverLread 0.4 \
+ --outFilterScoreMinOverLread 0.4
 ```
 
 ### Assemble
