@@ -25,7 +25,7 @@ bowtie2
 dereplicate.sh (this may mess up some of the trinity processing as it uses sequence depth to guess isoforms)
 normalise.sh (using trinity)
 ```
-PIPELINE.sh -c normalise --seqType fq --JM 32 --max_cov 10 --left $FORWARD --right $REVERSE --pairs_together --output $OUTDIR --CPU 16 
+PIPELINE.sh -c normalise --seqType fa --JM 32 --max_cov 10 --left_list $FORWARDS --right_list $REVERSES --pairs_together --output $OUTDIR --CPU 16 
 ```
 
 
