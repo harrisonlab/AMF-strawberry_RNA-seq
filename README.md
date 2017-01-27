@@ -87,7 +87,7 @@ get_unip.pl transcripts.fa > unique_transcripts.fa
 
 
 ### Merge transcriptomes 
-
+TGI clustering tool or build my own with usearch and cap3
 
 ### Align to reference genome
 
