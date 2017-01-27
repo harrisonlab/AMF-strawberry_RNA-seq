@@ -13,14 +13,36 @@ FastQC
 ### Split files
 The files are large - some of the steps will get better performance on the cluster by splitting data into chunks.
 ```shell
-splitfq.sh 
+PIPELINE -C splitfq fastq_file outdir 
 ```
-### Trim adapters
-trimmomatic
+### Trim adapters 
+With trimmomatic
+```shell
+PIPELINE -C trim left right outdir adapters.fa threads [options]
+```
+Further trimmomatic options can be appended if required
+
 ### Quality filter and joining
-usearch
+Quality score is based on the expected number of errors in a sequence. Seqeunce is dropped if the error rate is above that specified.
+
+Join and filter
+```shell
+PIPELINE -C join left right outdir max_diff min_length quality #max_diff % mismatches in join
+```
+Filter only
+```shell
+PIPELINE -C clean left right outdir min_length qual_left qual_right
+```
 ### Phix rRNA/cloroplast/mitochondion filter
-bowtie2 
+Make Phix etc. Bowtie2 index
+```
+botiew2-build contaminants.fa contaminants
+```
+Remove contaminants
+```
+PIPELINE -c filter -v <paired|unpaired> contaminants outdir <joined_fq|left right>
+```
+
 ### Dereplicate/normalise or something else
 dereplicate.sh (this may mess up some of the trinity processing as it uses sequence depth to guess isoforms)
 normalise.sh (using trinity)
