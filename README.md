@@ -89,6 +89,14 @@ get_unip.pl transcripts.fa > unique_transcripts.fa
 ### Merge transcriptomes 
 TGI clustering tool or build my own with usearch and cap3
 
+```
+usearch9 -cluster_fast D20_single.fa -sort length -id 0.99 -strand both -centroids D20_centroids.fa -consout D20_consesus.fa -clusters D20_clusters/c_ -uc D20.uc
+```
+Cap3 alignment
+```
+```
+
+
 ### Align to reference genome
 
 Find sequence lengths
