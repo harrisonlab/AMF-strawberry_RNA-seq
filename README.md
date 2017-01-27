@@ -28,9 +28,8 @@ normalise.sh (using trinity)
 PIPELINE.sh -c normalise fa --JM 320G --max_cov 25 --left F --right R --pairs_together --output $OUTDIR --CPU 16 
 ```
 
-
 ### Align to genome
-star 
+For genome guided assembly only 
 ```
 ### Generate index
 STAR --runMode genomeGenerate --genomeDir $OUTDIR --genomeFastaFiles redgauntlet.fa --sjdbGTFfile redgauntlet.gff --genomeChrBinNbits 11
@@ -46,7 +45,7 @@ STAR \
 ```
 
 ### Assemble
-Ref-guided
+Genome-guided
 ```
 PIPELINE.sh -c assemble \
  --genome_guided_bam $STRAWBERRY/aligned/D20.2Aligned.sortedByCoord.out.bam \
@@ -58,9 +57,17 @@ PIPELINE.sh -c assemble \
  --output $STRAWBERRY/assembled/trinity_D20
 ```
 
+### Dereplicate transcripts
+```
+get_unip.pl transcripts.fa > unique_transcripts.fa
+```
+### Quality check transcripts
 
-### Align
-Dereplicate (useful here) assembled output and align back to genome.
+
+### Merge transcriptomes 
+
+
+### Align to reference genome
 
 Find sequence lengths
 ```
