@@ -19,7 +19,7 @@ PIPELINE -C splitfq fastq_file num_reads outdir
 ### Trim adapters 
 With trimmomatic
 ```shell
-PIPELINE -C trim left right outdir adapters.fa threads [options]
+PIPELINE -c trim left right outdir adapters.fa threads [options]
 ```
 Further trimmomatic options can be appended if required
 
@@ -28,11 +28,11 @@ Quality score is based on the expected number of errors in a sequence. Seqeunce 
 
 Join and filter
 ```shell
-PIPELINE -C join left right outdir max_diff min_length quality #max_diff % mismatches in join
+PIPELINE -c join left right outdir max_diff min_length quality #max_diff % mismatches in join
 ```
 Filter only
 ```shell
-PIPELINE -C clean left right outdir min_length qual_left qual_right
+PIPELINE -c clean left right outdir min_length qual_left qual_right
 ```
 ### Phix rRNA/cloroplast/mitochondion filter
 Make Phix etc. Bowtie2 index
