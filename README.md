@@ -15,12 +15,12 @@ The files are large - some of the steps will get better performance on the clust
 
  Num_reads of about 5,000,000 works well
 ```shell
-PIPELINE -C splitfq fastq_file num_reads outdir 
+PIPELINE.sh -c splitfq fastq_file num_reads outdir 
 ```
 ### Trim adapters 
 With trimmomatic
 ```shell
-PIPELINE -c trim left right outdir adapters.fa threads [options]
+PIPELINE.sh -c trim left right outdir adapters.fa threads [options]
 ```
 Further trimmomatic options can be appended if required
 
@@ -29,11 +29,11 @@ Quality score is based on the expected number of errors in a sequence. Seqeunce 
 
 Join and filter
 ```shell
-PIPELINE -c join left right outdir max_diff min_length quality #max_diff % mismatches in join
+PIPELINE.sh -c join left right outdir max_diff min_length quality #max_diff % mismatches in join
 ```
 Filter only
 ```shell
-PIPELINE -c clean left right outdir min_length qual_left qual_right
+PIPELINE.sh -c clean left right outdir min_length qual_left qual_right
 ```
 ### Phix rRNA/chloroplast/mitochondion filter
 Make Phix etc. Bowtie2 index
@@ -42,7 +42,7 @@ bowtie2-build contaminants.fa contaminants
 ```
 Remove contaminants
 ```
-PIPELINE -c filter -v <paired|unpaired> contaminants outdir <joined_fq|left right>
+PIPELINE.sh -c filter -v <paired|unpaired> contaminants outdir <joined_fq|left right>
 ```
 
 ### Dereplicate/normalise or something else
