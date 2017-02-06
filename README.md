@@ -31,9 +31,11 @@ Join and filter
 ```shell
 PIPELINE.sh -c join left right outdir max_diff min_length quality #max_diff % mismatches in join
 ```
+
 Filter only
+qual_left ~0.1 qual_right ~0.25 removes about 30% of data (this is a good thing)
 ```shell
-PIPELINE.sh -c clean left right outdir min_length qual_left qual_right
+PIPELINE.sh -c clean left right outdir qual_left qual_right
 ```
 ### Phix rRNA/chloroplast/mitochondion filter
 Make Phix etc. Bowtie2 index
