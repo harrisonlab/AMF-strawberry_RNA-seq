@@ -53,6 +53,10 @@ dereplicate.sh (this may mess up some of the trinity processing as it uses seque
 
 normalise.sh (using trinity)
 ```
+mkfifo F
+mkfifo R
+cat *.f.* >F &
+cat *.r.* >R &
 PIPELINE.sh -c normalise fa --JM 320G --max_cov 25 --left F --right R --pairs_together --output $OUTDIR --CPU 16 
 ```
 
