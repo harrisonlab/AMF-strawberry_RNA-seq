@@ -11,7 +11,8 @@ FastQC
 ## Denovo assembly
 
 ### Split files
-The files are large - some of the steps will get better performance on the cluster by splitting data into chunks.
+The files are large - some of the steps will get better performance on the cluster by splitting data into chunks (and 32bit version of usearch won't run out of memory).
+
  Num_reads of about 5,000,000 works well
 ```shell
 PIPELINE -C splitfq fastq_file num_reads outdir 
