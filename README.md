@@ -57,7 +57,7 @@ mkfifo F
 mkfifo R
 cat *.f.* >F &
 cat *.r.* >R &
-PIPELINE.sh -c normalise fa --JM 320G --max_cov 25 --left F --right R --pairs_together --output $OUTDIR --CPU 16 
+PIPELINE.sh -c normalise $OUTDIR --seqType fa --JM 320G --max_cov 25 --left F --right R --pairs_together --CPU 16 
 ```
 
 ### Align to genome
