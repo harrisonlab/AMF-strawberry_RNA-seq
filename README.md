@@ -34,7 +34,7 @@ Filter only
 ```shell
 PIPELINE -c clean left right outdir min_length qual_left qual_right
 ```
-### Phix rRNA/cloroplast/mitochondion filter
+### Phix rRNA/chloroplast/mitochondion filter
 Make Phix etc. Bowtie2 index
 ```
 botiew2-build contaminants.fa contaminants
@@ -46,6 +46,7 @@ PIPELINE -c filter -v <paired|unpaired> contaminants outdir <joined_fq|left righ
 
 ### Dereplicate/normalise or something else
 dereplicate.sh (this may mess up some of the trinity processing as it uses sequence depth to guess isoforms)
+
 normalise.sh (using trinity)
 ```
 PIPELINE.sh -c normalise fa --JM 320G --max_cov 25 --left F --right R --pairs_together --output $OUTDIR --CPU 16 
