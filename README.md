@@ -37,7 +37,7 @@ PIPELINE -c clean left right outdir min_length qual_left qual_right
 ### Phix rRNA/chloroplast/mitochondion filter
 Make Phix etc. Bowtie2 index
 ```
-botiew2-build contaminants.fa contaminants
+bowtie2-build contaminants.fa contaminants
 ```
 Remove contaminants
 ```
