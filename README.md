@@ -12,8 +12,9 @@ FastQC
 
 ### Split files
 The files are large - some of the steps will get better performance on the cluster by splitting data into chunks.
+ Num_reads of about 5,000,000 works well
 ```shell
-PIPELINE -C splitfq fastq_file outdir 
+PIPELINE -C splitfq fastq_file num_reads outdir 
 ```
 ### Trim adapters 
 With trimmomatic
