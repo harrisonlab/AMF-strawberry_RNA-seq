@@ -52,12 +52,13 @@ PIPELINE.sh -c filter -v <paired|unpaired> contaminants outdir <joined_fq|left r
 dereplicate.sh (this may mess up some of the trinity processing as it uses sequence depth to guess isoforms)
 
 normalise.sh (using trinity)
+Accepts lists of files
+
 ```
-mkfifo F
-mkfifo R
-cat *.f.* >F &
-cat *.r.* >R &
-PIPELINE.sh -c normalise $OUTDIR --seqType fa --JM 320G --max_cov 25 --left F --right R --pairs_together --CPU 16 
+find $PWD -name '*.f.*' >D1_F.txt
+find $PWD -name '*.r.*' >D1_R.txt
+
+PIPELINE.sh -c normalise $OUTDIR --seqType fa --JM 320G --max_cov 25 --left_list D1_F.txt --right_list D1_R.txt --pairs_together --CPU 16 
 ```
 
 ### Align to genome
