@@ -8,7 +8,7 @@ shift
 
 mkdir -p $OUTPUT
 
-/home/deakig/trinity/util/insilico_read_normalization.pl --output $TMP $@
+$SGE_O_HOME/trinity/util/insilico_read_normalization.pl --output $TMP $@
 
 cd $TMP
 cp * $OUTPUT/.
