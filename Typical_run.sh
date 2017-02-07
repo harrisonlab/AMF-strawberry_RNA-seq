@@ -41,3 +41,15 @@ for R1 in $STRAW_DN/cleaned/D2_1.fq.gz.aaaa*.f.*; do
 done
 
 #normalise
+find $STRAW_DN/filtered -name '*.f.*' > $STRAW_DN/normalised/D2/D2_F.txt
+find $STRAW_DN/filtered -name '*.r.*' > $STRAW_DN/normalised/D2/D2_R.txt
+
+$STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c normalise \
+  $OUTDIR \
+  --seqType fa \
+  --JM 320G \
+  --max_cov 25 \
+  --left_list $STRAW_DN/normalised/D2/D2_F.txt \
+  --right_list $STRAW_DN/normalised/D2/D2_R.txt \
+  --pairs_together \
+  --CPU 16 
