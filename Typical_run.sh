@@ -41,8 +41,8 @@ for R1 in $STRAW_DN/cleaned/D2_1.fq.gz.aaaa*.f.*; do
 done
 
 #normalise
-find $STRAW_DN/filtered -name '*.f.*' > $STRAW_DN/normalised/D2/D2_F.txt
-find $STRAW_DN/filtered -name '*.r.*' > $STRAW_DN/normalised/D2/D2_R.txt
+find $STRAW_DN/filtered -name '*.f.*' > $STRAW_DN/normalised/D2/D2_F.txt #  check file order
+find $STRAW_DN/filtered -name '*.r.*' > $STRAW_DN/normalised/D2/D2_R.txt # check file order
 
 $STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c normalise \
   $OUTDIR \
