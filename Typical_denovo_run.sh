@@ -45,7 +45,7 @@ find $STRAW_DN/filtered -name '*.f.*'|sort|xargs -I% cat % > $STRAW_DN/filtered/
 find $STRAW_DN/filtered -name '*.r.*'|sort|xargs -I% cat % > $STRAW_DN/filtered/D2_R
 
 $STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c normalise \
-  $OUTDIR \
+  $STRAW_DN/normalised/D2 \
   --seqType fa \
   --JM 320G \
   --max_cov 25 \
