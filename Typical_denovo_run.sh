@@ -41,13 +41,8 @@ for R1 in $STRAW_DN/cleaned/D2_1.fq.gz.aaaa*.f.*; do
 done
 
 #normalise
-touch $STRAW_DN/filtere/D2_F
-touch $STRAW_DN/filtere/D2_R
-for f in $STRAW_DN/filtered/*.f.*; do
-  cat $f >> D2_F
-  r=$(echo $f|sed 's/\.f\./\.r\./')
-  cat $r >> D2_R
-done
+find $STRAW_DN/filtered -name '*.f.*'|sort|xargs -I% cat % > $STRAW_DN/filtered/D2_F
+find $STRAW_DN/filtered -name '*.r.*'|sort|xargs -I% cat % > $STRAW_DN/filtered/D2_R
 
 $STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c normalise \
   $OUTDIR \
