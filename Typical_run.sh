@@ -26,18 +26,17 @@ for R1 in $STRAW_DN/trimmed/D2_1.fq.gz.aaaa*; do
   $STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c clean \
   $R1 \
   $R2 \
-  $STRAW_DN/trimmed \
-  $STRAW_DN/Denovo-assembly_pipeline/scripts/truseq.fa \
-  4
+  $STRAW_DN/cleaned \
+  0.1 \
+  0.25
 done
-
 
 #filter
 for R1 in $STRAW_DN/cleaned/D2_1.fq.gz.aaaa*.f.*; do 
   R2=$(echo $R1|sed 's/\.f\./\.r\./'); 
   $STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c filter \
-  /home/deakig/projects/strawberry/data/contaminants/contaminants \
-  /home/deakig/projects/strawberry/data/De_novo_assembly/filtered \
+  $STRAW_DN/../contaminants/contaminants \
+  $STRAW_DN/filtered \
   $R1 $R2
 done
 
