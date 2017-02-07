@@ -41,15 +41,35 @@ for R1 in $STRAW_DN/cleaned/D2_1.fq.gz.aaaa*.f.*; do
 done
 
 #normalise
-find $STRAW_DN/filtered -name '*.f.*' > $STRAW_DN/normalised/D2/D2_F.txt #  check file order
-find $STRAW_DN/filtered -name '*.r.*' > $STRAW_DN/normalised/D2/D2_R.txt # check file order
+touch $STRAW_DN/filtere/D2_F
+touch $STRAW_DN/filtere/D2_R
+for f in $STRAW_DN/filtered/*.f.*; do
+  cat $f >> D2_F
+  r=$(echo $f|sed 's/\.f\./\.r\./')
+  cat $r >> D2_R
+done
 
 $STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c normalise \
   $OUTDIR \
   --seqType fa \
   --JM 320G \
   --max_cov 25 \
-  --left_list $STRAW_DN/normalised/D2/D2_F.txt \
-  --right_list $STRAW_DN/normalised/D2/D2_R.txt \
+  --left $STRAW_DN/filtered/D2_F \
+  --right $STRAW_DN/filtered/D2_R \
   --pairs_together \
   --CPU 16 
+
+# --left_list and --right_list don't appear to work correctly
+
+#find $STRAW_DN/filtered -name '*.f.*' > $STRAW_DN/normalised/D2/D2_F.txt # check file order (this is a actually a v. poor method as find sort order is based on the files physical disk location)
+#find $STRAW_DN/filtered -name '*.r.*' > $STRAW_DN/normalised/D2/D2_R.txt # check file order
+
+#$STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c normalise \
+#  $OUTDIR \
+#  --seqType fa \
+#  --JM 320G \
+#  --max_cov 25 \
+#  --left_list $STRAW_DN/normalised/D2/D2_F.txt \
+#  --right_list $STRAW_DN/normalised/D2/D2_R.txt \
+#  --pairs_together \
+#  --CPU 16 
