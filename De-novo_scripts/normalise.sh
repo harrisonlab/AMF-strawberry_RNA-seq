@@ -52,4 +52,4 @@ if [[ -z "$SCRIPT_DIR" ]]; then
 	SCRIPT_DIR=$(readlink -f ${0%/*})
 fi
 
-qsub -l h=blacklace11 $SCRIPT_DIR/submit_normalise.sh $@
+qsub  $SCRIPT_DIR/submit_normalise.sh $@
