@@ -48,7 +48,7 @@ $STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c normalise \
   $STRAW_DN/normalised/D2 \
   --seqType fa \
   --JM 320G \
-  --max_cov 25 \
+  --max_cov 35 \
   --left $STRAW_DN/filtered/D2_F \
   --right $STRAW_DN/filtered/D2_R \
   --pairs_together \
