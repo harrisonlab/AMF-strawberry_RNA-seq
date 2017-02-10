@@ -54,8 +54,27 @@ $STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c normalise \
   --pairs_together \
   --CPU 16 
 
-#Assemble Trintity
+#correct read order (need to create cluster script for this)
+grep ">" D2_F.normalized_K25_C35_pctSD200.fa >h1.txt
+grep ">" D2_R.normalized_K25_C35_pctSD200.fa >>h1.txt
+sort h1.txt|uniq -d > h3.txt
+sed -i -e 's/>//' h3.txt
+usearch9  -fastx_getseqs D2_F.normalized_K25_C35_pctSD200.fa -labels h3.txt -fastaout D2_F_K35_1.fa
+usearch9  -fastx_getseqs D2_R.normalized_K25_C35_pctSD200.fa -labels h3.txt -fastaout D2_R_K35_2.fa
 
+#Assemble Trintity
+$STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c assemble \
+ trinity \
+ --seqType fa \
+ --left $STRAW_DN/filtered/D2_F \
+ --right $STRAW_DN/filtered/D2_R \
+ --output $STRAWBERRY/assembled/trinity_D2
+ --no_normalize_reads \
+ --full_cleanup \
+ --max_memory 320G \
+ --CPU 16 \
+ --grid_node_CPU 2 \
+ --grid_node_max_memory 2G
 
 #Assemble TransAbyss
 
