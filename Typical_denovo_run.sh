@@ -66,9 +66,9 @@ usearch9  -fastx_getseqs D2_R.normalized_K25_C35_pctSD200.fa -labels h3.txt -fas
 $STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c assemble \
  trinity \
  --seqType fa \
- --left $STRAW_DN/filtered/D2_F \
- --right $STRAW_DN/filtered/D2_R \
- --output $STRAWBERRY/assembled/trinity_D2
+ --left $STRAW_DN/normalised/D2/D2_F_K35_1.fa \
+ --right $STRAW_DN/normalised/D2/D2_R_K35_2.fa \
+ --output $STRAWBERRY/assembled/trinity_D2 \
  --no_normalize_reads \
  --full_cleanup \
  --max_memory 320G \
