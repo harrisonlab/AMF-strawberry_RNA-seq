@@ -68,7 +68,7 @@ $STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c assemble \
  --seqType fa \
  --left $STRAW_DN/normalised/D2/D2_F_K35_1.fa \
  --right $STRAW_DN/normalised/D2/D2_R_K35_2.fa \
- --output $STRAWBERRY/assembled/trinity_D2 \
+ --output $STRAW_DN/assembled/trinity_D2 \
  --no_normalize_reads \
  --full_cleanup \
  --max_memory 320G \
