@@ -58,7 +58,7 @@ Accepts lists of files - this doesn't work correctly, only processes first entry
 find . -name '*.f.*'|sort|xargs -I% cat % > f.fa
 find . -name '*.r.*'|sort|xargs -I% cat % > r.fa
 
-PIPELINE.sh -c normalise $OUTDIR --seqType fa --JM 320G --max_cov 25 --left f.fa --right r.fa --pairs_together --CPU 16 
+PIPELINE.sh -c normalise $OUTDIR --seqType fa --JM 320G --max_cov 35 --left f.fa --right r.fa --pairs_together --CPU 16 
 ```
 
 ### Align to genome
@@ -78,11 +78,25 @@ STAR \
 ```
 
 ### Assemble
-Genome-guided
+Genome-guided with trinity
 ```
 PIPELINE.sh -c assemble \
+ trinity \
  --genome_guided_bam $STRAWBERRY/aligned/D20.2Aligned.sortedByCoord.out.bam \
  --genome_guided_max_intron 10000 \
+ --max_memory 320G \
+ --CPU 16 \
+ --grid_node_CPU 2 \
+ --grid_node_max_memory 2G \
+ --output $STRAWBERRY/assembled/trinity_D20
+```
+
+De-novo
+```
+PIPELINE.sh -c assemble \
+ trinity \
+ --no_normalize_reads \
+ --full_cleanup \
  --max_memory 320G \
  --CPU 16 \
  --grid_node_CPU 2 \
