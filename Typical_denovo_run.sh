@@ -53,3 +53,11 @@ $STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c normalise \
   --right $STRAW_DN/filtered/D2_R \
   --pairs_together \
   --CPU 16 
+
+#Assemble Trintity
+
+
+#Assemble TransAbyss
+
+
+#Assemble Velvet/Oases
