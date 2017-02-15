@@ -101,26 +101,20 @@ PIPELINE.sh -c assemble \
  --CPU 16 \
  --grid_node_CPU 2 \
  --grid_node_max_memory 2G \
- --output $STRAWBERRY/assembled/trinity_D20
+ --output $STRAWBERRY/assembled/trinity_D20_C35
 ```
 
-### Dereplicate transcripts
+### Dereplicate, cluster and Cap3 merge
 ```
-get_unip.pl transcripts.fa > unique_transcripts.fa
+get_unip.pl trinity_D20_C35.Trinity.fasta> trinity_D20_C35_dereplicated.fasta
+usearch9 -cluster_fast trinity_D20_C35_dereplicated.fasta -sort length -strand both -id 0.99 -sizeout -centroids trinity_D20_C35_0.99-centroids.fasta
+cap3 trinity_D20_C35_0.99-centroids.fasta >cap3_D20_0.99.output
 ```
-### Quality check transcripts
 
+### Transcript quality filter
+tr2aacds pipeline?
 
 ### Merge transcriptomes 
-TGI clustering tool or build my own with usearch and cap3
-
-```
-usearch9 -cluster_fast D20_single.fa -sort length -id 0.99 -strand both -centroids D20_centroids.fa -consout D20_consesus.fa -clusters D20_clusters/c_ -uc D20.uc
-```
-Cap3 alignment
-```
-```
-
 
 ### Align to reference genome
 
