@@ -111,6 +111,9 @@ Cluster_fast resutls are dependent on the order in which transcripts are read. C
 dereplicate_v2.pl will now sort transcripts by largest ORF (max aa between stop codons or start/end of sequence) size. 
 
 Using Cap3 (or other assmbly of assembly methods) is not recommended by everyone as they are effectivly selecting on transcript length (same problem as above), which will tend to increase no. errors in the assmbly...
+
+Ok - the tr2aacds pipeline dereplicates based on identical longest ORF as other (UTR) regions are often mangled or contain bits of other genes. This will be (fairly) straightforward to implement in dereplicate_v2.
+
 ```
 dereplicate_v2.pl trinity_D20_C35.Trinity.fasta> trinity_D20_C35_dereplicated.fasta
 usearch9 -cluster_fast trinity_D20_C35_dereplicated.fasta -sort length -strand both -id 0.99 -sizeout -centroids trinity_D20_C35_0.99-centroids.fasta
