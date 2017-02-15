@@ -105,8 +105,11 @@ PIPELINE.sh -c assemble \
 ```
 
 ### Dereplicate, cluster and Cap3 merge
+
+Cluster_fast resutls are dependent on the order in which transcripts are read. Currently set to sort by transcript length. May be best to modify get_unique to output transcripts in longest protein order then drop the usearch sort method.  
+
 ```
-get_unip.pl trinity_D20_C35.Trinity.fasta> trinity_D20_C35_dereplicated.fasta
+get_unique.pl trinity_D20_C35.Trinity.fasta> trinity_D20_C35_dereplicated.fasta
 usearch9 -cluster_fast trinity_D20_C35_dereplicated.fasta -sort length -strand both -id 0.99 -sizeout -centroids trinity_D20_C35_0.99-centroids.fasta
 cap3 trinity_D20_C35_0.99-centroids.fasta >cap3_D20_0.99.output
 ```
