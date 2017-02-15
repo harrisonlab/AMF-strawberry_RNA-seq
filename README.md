@@ -132,19 +132,19 @@ awk '/^>/ {if (seqlen){print (x,seqlen)}; x=$1 ;seqlen=0;next; } { seqlen += len
 Align with star (some of these setting probably need tweaking)
 ```
 STARlong 
- --genomeDir $STRAWBERRY/genome/star_octo/ 
- --outFileNamePrefix D1 
- --readFilesIn $STRAWBERRY/assembled/D1_sort_uniq.fa 
- --runThreadN 16 
- --outFilterMultimapScoreRange 20   
- --outFilterScoreMinOverLread 0   
- --outFilterMatchNminOverLread 0.66   
- --outFilterMismatchNmax 1000   
- --winAnchorMultimapNmax 200   
- --seedSearchLmax 30   
- --seedSearchStartLmax 12   
- --seedPerReadNmax 100000   
- --seedPerWindowNmax 100   
- --alignTranscriptsPerReadNmax 100000   
+ --genomeDir $STRAWBERRY/genome/star_octo/ \
+ --outFileNamePrefix D1 \
+ --readFilesIn $STRAWBERRY/assembled/D1_sort_uniq.fa \
+ --runThreadN 16 \
+ --outFilterMultimapScoreRange 20   \
+ --outFilterScoreMinOverLread 0   \
+ --outFilterMatchNminOverLread 0.66   \
+ --outFilterMismatchNmax 1000   \
+ --winAnchorMultimapNmax 200   \
+ --seedSearchLmax 30   \
+ --seedSearchStartLmax 12   \
+ --seedPerReadNmax 100000   \
+ --seedPerWindowNmax 100   \
+ --alignTranscriptsPerReadNmax 100000   \
  --alignTranscriptsPerWindowNmax 10000
 ```
