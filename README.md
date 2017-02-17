@@ -104,24 +104,23 @@ PIPELINE.sh -c assemble \
  --output $STRAWBERRY/assembled/trinity_D20_C35
 ```
 
-### Dereplicate, cluster and Cap3 merge
-
-Cluster_fast resutls are dependent on the order in which transcripts are read. Currently set to sort by transcript length. May be best to modify get_unique to output transcripts in longest protein order then drop the usearch sort method.  
-
-dereplicate_v2.pl will now sort transcripts by largest ORF (max aa between stop codons or start/end of sequence) size. 
-
-Using Cap3 (or other assmbly of assembly methods) is not recommended by everyone as they are effectivly selecting on transcript length (same problem as above), which will tend to increase no. errors in the assmbly...
-
-Ok - the tr2aacds pipeline dereplicates based on identical longest ORF as other (UTR) regions are often mangled or contain bits of other genes. This will be (fairly) straightforward to implement in dereplicate_v2.
-
-```
-dereplicate_v2.pl trinity_D20_C35.Trinity.fasta> trinity_D20_C35_dereplicated.fasta
-usearch9 -cluster_fast trinity_D20_C35_dereplicated.fasta -sort length -strand both -id 0.99 -sizeout -centroids trinity_D20_C35_0.99-centroids.fasta
-cap3 trinity_D20_C35_0.99-centroids.fasta >cap3_D20_C35_0.99.output
-```
-
 ### Transcript quality filter
-tr2aacds pipeline?
+
+Something like tr2aacds pipeline?
+
+```
+get_longest_cds.pl
+dereplicate.pl
+sort_fasta.pl
+derep_fragments.pl # this is mega slow
+usearch -cluster_fast -id 1 # this should be faster, but will be memory limited - good reason to buy 64bit version?
+
+#dereplicate_v2.pl trinity_D20_C35.Trinity.fasta> trinity_D20_C35_dereplicated.fasta
+
+
+usearch9 -cluster_fast trinity_D20_C35_dereplicated.fasta -sort length -strand both -id 0.99 -sizeout -centroids trinity_D20_C35_0.99-centroids.fasta
+#cap3 trinity_D20_C35_0.99-centroids.fasta >cap3_D20_C35_0.99.output
+```
 
 ### Merge transcriptomes 
 
