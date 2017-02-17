@@ -77,6 +77,11 @@ $STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c assemble \
  --grid_node_max_memory 2G
 
 #Assemble TransAbyss
-
-
 #Assemble Velvet/Oases
+#Assemble SOAP
+
+# Filter transcripts
+ $STRAW_DN/Denovo-assembly/scripts/dereplicate.pl trinity_D1.Trinity.fasta| \
+ $STRAW_DN/Denovo-assembly/scripts/get_longest_cds.pl| \
+ $STRAW_DN/Denovo-assembly/scripts/dereplicate.pl| \
+ $STRAW_DN/Denovo-assembly/scripts/sort_fasta.pl >cds.derep.sorted.fa
