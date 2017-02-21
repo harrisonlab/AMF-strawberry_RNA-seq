@@ -2,7 +2,7 @@
 
 #$ -S /bin/bash
 #$ -cwd
-#$ -l virtual_free=8G
+#$ -l virtual_free=2G
 
 REF=$1
 shift

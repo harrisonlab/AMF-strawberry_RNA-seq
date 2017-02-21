@@ -50,4 +50,4 @@ if [[ -z "$SCRIPT_DIR" ]]; then
 	SCRIPT_DIR=$(readlink -f ${0%/*})
 fi
 
-qsub $SCRIPT_DIR/submit_clean.sh $@
+qsub -l h=!blacklace11 $SCRIPT_DIR/submit_clean.sh $@

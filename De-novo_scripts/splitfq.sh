@@ -47,4 +47,4 @@ fi
 
 
 
-qsub $SCRIPT_DIR/submit_splitfq.sh $@
+qsub -l h=!blacklace11 $SCRIPT_DIR/submit_splitfq.sh $@

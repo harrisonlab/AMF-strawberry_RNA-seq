@@ -102,9 +102,12 @@ dereplicate|dereplicate.sh)
 	$SCRIPT_DIR/dereplicate.sh $@
 	exit 0
 ;;
-
+correct)
+	qsub -l h=!blacklace11 $SCRIPT_DIR/submit_correct.sh $@
+	exit 0
+;;
 assemble|assemble.sh)
-	$SCRIPT_DIR/assemble.sh $@
+	$SCRIPT_DIR/assemble.sh -p $@
 	exit 0
 ;;
 

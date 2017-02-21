@@ -53,5 +53,5 @@ if [[ -z "$SCRIPT_DIR" ]]; then
 fi
 
 # note bowtie will use the same file name for all output files -
-qsub $SCRIPT_DIR/submit_bowtie.sh $@
+qsub -l h=!blacklace11 $SCRIPT_DIR/submit_bowtie.sh $@
 

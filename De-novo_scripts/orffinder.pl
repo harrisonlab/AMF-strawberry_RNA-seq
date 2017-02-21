@@ -1,42 +1,34 @@
-#! /usr/bin/perl -w -s
+#!/usr/bin/perl
+use warnings;
+use strict;
 use List::MoreUtils 'first_index';
 use List::MoreUtils qw(indexes);
-
-#############################################################
-#
-# Removes identical sequences and sorts by longest ORF 
-#
-#############################################################
-
-my %seqs=();
+ 
 
 my $header="";
 my $seq="";
-$seqs{$seq}=1000000000; # adds empty string to hash with arbitary large number (to ensure first in $output)
 my $h1="";
 my @idx;
-my $output;
 
-while (<>) {
-	if ($_=~/\>/) {
-		$seqs{$seq}=(sprintf "%.0f",main()) if !exists $seqs{$seq};
-		$seq="";		
-	} else{
-		chomp;
+while(<>) {
+	chomp;
+	if($_=~/\>/) {
+		$h1=$_;
+		if (length($seq)>0){
+			main();
+		}
+		$seq="";
+	} else {
+		$header=$h1;
 		$seq.=$_;
 	}
 }
 
-
-$seqs{$seq}=(sprintf "%.0f",main()) if !exists $seqs{$seq} & $seq ne "";
-
-my $counter=0;
-foreach my $key (sort {$seqs{$b} <=> $seqs{$a}} keys %seqs) {
-	$output.=">uniq.$counter;maxorf=$seqs{$key};\n$key\n";
-	$counter++;
+if (length($seq)>0){
+	main();
 }
 
-syswrite STDOUT, $output,length($output),28;
+
 
 sub main {
 	my $rcseq = reverse_compliment($seq);
@@ -52,9 +44,12 @@ sub main {
 	$idx[5] =get_idx($rcseq);
 
 	my $itop = max_numarray_idx(@idx);
-	my $score=$idx[$itop];
-	$score=length($seq)+1 if $score < 0;
-	return($score);
+	$header=~ s/^.//s;
+	print "$header\t";
+	print length($seq);
+	print "\t";
+	print $idx[$itop]*3;
+	print "\t$itop\n";
 }
 
 sub reverse_compliment {

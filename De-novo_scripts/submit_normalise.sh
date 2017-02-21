@@ -1,14 +1,14 @@
 #!/bin/bash
 #$ -S /bin/bash
 #$ -cwd
-#$ -l virtual_free=120G
+#$ -l virtual_free=320G
 
 OUTPUT=$1
 shift
 
 mkdir -p $OUTPUT
 
-$SGE_O_HOME/trinity/util/insilico_read_normalization.pl --output $TMP $@
+/home/deakig/trinity/util/insilico_read_normalization.pl --output $TMP $@
 
 cd $TMP
 cp * $OUTPUT/.

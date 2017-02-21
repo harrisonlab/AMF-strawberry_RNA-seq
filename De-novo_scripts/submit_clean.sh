@@ -1,7 +1,7 @@
 #!/bin/bash
 #$ -S /bin/bash
 #$ -cwd
-#$ -l virtual_free=8G
+#$ -l virtual_free=2G
 
 FORWARD=$1
 shift
@@ -16,8 +16,9 @@ shift
 
 OUTFILE=$(echo $FORWARD|awk -F"/" '{print $NF}')
 
-mkdir -p $OUTDIR 
-cd $OUTDIR 
+
+cd $TMP 
+#$OUTDIR 
 
 
 usearch9  -fastq_filter $FORWARD \
@@ -55,7 +56,7 @@ echo "found matching forward reads"
 usearch9  -fastx_getseqs ${OUTFILE}.r2 -labels ${OUTFILE}.l2 -fastaout ${OUTFILE}.r.filtered.fa
 echo "found matching reverse reads"
 
-
-
 rm ${OUTFILE}.f1 ${OUTFILE}.r1 ${OUTFILE}.f2 ${OUTFILE}.r2 ${OUTFILE}.l1 ${OUTFILE}.l2
- 
+
+mkdir -p $OUTDIR 
+cp *  $OUTDIR/.

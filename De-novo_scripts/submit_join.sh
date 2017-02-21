@@ -1,7 +1,7 @@
 #!/bin/bash
 #$ -S /bin/bash
 #$ -cwd
-#$ -l virtual_free=8G
+#$ -l virtual_free=2G
 
 FORWARD=$1
 shift

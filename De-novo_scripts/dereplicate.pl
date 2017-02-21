@@ -1,39 +1,34 @@
 #! /usr/bin/perl -w -s
 
-my %seq=();
+#############################################################
+#
+# Removes identical sequences
+# no sorting
+#
+#############################################################
 
-my $fasta="";
-my $lastcount=0;
+my %seqs=();
+
+my $seq="";
+$seqs{""}=0;
+my $counter=1;
+my $output;
+
+
 while (<>) {
 	if ($_=~/\>/) {
-		if ($fasta ne "") {
-			if (exists $seq{$fasta}) {
-				$seq{$fasta}++;
-			} else {
-				$seq{$fasta}=1;
-			}
-		}
-		#$lastcount=$count;
-		$fasta="";		
+		if (!exists $seqs{$seq}) {
+			$output.=">Contig$counter\n$seq\n"; 
+			$seqs{$seq}=1;
+			$counter++;
+		} 
+		$seq="";		
 	} else{
 		chomp;
-		$fasta.=$_;
+		$seq.=$_;
 	}
 }
 
-if ($fasta ne "") {
-	if (exists $seq{$fasta}) {
-		$seq{$fasta}++;
-	} else {
-		$seq{$fasta}=1;
-	}
-}
+$output.=">Contig$counter\n$seq\n" if !exists $seqs{$seq};
 
-
-my $counter=1;
-foreach my $key (sort {$seq{$b} <=> $seq{$a}} keys %seq) {
-	if($seq{$key}>0) {
-		print">uniq.$counter;size=$seq{$key};\n$key\n";
-		$counter++;
-	}
-}
+syswrite STDOUT, $output;
