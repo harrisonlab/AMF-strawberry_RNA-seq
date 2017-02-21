@@ -91,7 +91,7 @@ for k in {21..65..4}; do
 	$STRAW_DN/assembled/D2/oases_C35
 done
 
-for k in {71..127..8}; do
+for k in {71..119..8}; do
 	$STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c assemble vo \
 	$k \
 	$STRAW_DN/assembled/D2/velveth_C35 \
