@@ -84,7 +84,7 @@ $STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c assemble velveth \
  $STRAW_DN/assembled/D2/velveth_C35 \
  $STRAW_DN/normalised/D2/D2_C35.fa
 
-for k in {21..69..4}; do
+for k in {21..65..4}; do
 	$STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c assemble vo \
 	$k \
 	$STRAW_DN/assembled/D2/velveth_C35 \
