@@ -59,8 +59,8 @@ grep ">" D2_F.normalized_K25_C35_pctSD200.fa >h1.txt
 grep ">" D2_R.normalized_K25_C35_pctSD200.fa >>h1.txt
 sort h1.txt|uniq -d > h3.txt
 sed -i -e 's/>//' h3.txt
-usearch9  -fastx_getseqs D2_F.normalized_K25_C35_pctSD200.fa -labels h3.txt -fastaout D2_F_K35_1.fa
-usearch9  -fastx_getseqs D2_R.normalized_K25_C35_pctSD200.fa -labels h3.txt -fastaout D2_R_K35_2.fa
+usearch9  -fastx_getseqs D2_F.normalized_K25_C35_pctSD200.fa -labels h3.txt -fastaout D2_C35_F_1.fa
+usearch9  -fastx_getseqs D2_R.normalized_K25_C35_pctSD200.fa -labels h3.txt -fastaout D2_C35_R_2.fa
 
 #Assemble Trintity
 $STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c assemble \
@@ -78,6 +78,9 @@ $STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c assemble \
 
 #Assemble TransAbyss
 #Assemble Velvet/Oases
+#requires interleaved fasta
+
+
 #Assemble SOAP
 
 # Filter transcripts
