@@ -54,13 +54,11 @@ $STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c normalise \
   --pairs_together \
   --CPU 16 
 
-#correct read order (need to create cluster script for this)
-grep ">" D2_F.normalized_K25_C35_pctSD200.fa >h1.txt
-grep ">" D2_R.normalized_K25_C35_pctSD200.fa >>h1.txt
-sort h1.txt|uniq -d > h3.txt
-sed -i -e 's/>//' h3.txt
-usearch9  -fastx_getseqs D2_F.normalized_K25_C35_pctSD200.fa -labels h3.txt -fastaout D2_C35_F_1.fa
-usearch9  -fastx_getseqs D2_R.normalized_K25_C35_pctSD200.fa -labels h3.txt -fastaout D2_C35_R_2.fa
+#correct read order (the normalise process doesn't guarantee pairs in same order - plus a few unmatched pairs get through)
+$STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c correct \
+ $STRAW_DN/normalised/D2/D2_F.normalized_K25_C35_pctSD200.fa \
+ $STRAW_DN/normalised/D2/D2_R.normalized_K25_C35_pctSD200.fa \
+ $STRAW_DN/normalised/D2
 
 #Assemble Trintity
 $STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c assemble \
@@ -78,10 +76,21 @@ $STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c assemble \
 
 #Assemble TransAbyss
 #Assemble Velvet/Oases
-#requires interleaved fasta
+$STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c interleave \
+ $STRAW_DN/normalised/D2/D2_C35_F_1.fa \
+ $STRAW_DN/normalised/D2/D2_C35_R_2.fa \
+ $STRAW_DN/normalised/D2
 
-
+velveth test 21 -fasta -shortPaired D2_C35.fa -noHash -create_binary
+mkdir K71
+ln test/* K71/.
+velveth K71 71 -reuse_Sequences -create_binary
+velvetg K71 -read_trkg yes
+oases K71 -ins_length 250 
+  
 #Assemble SOAP
+
+
 
 # Filter transcripts
  $STRAW_DN/Denovo-assembly/scripts/dereplicate.pl trinity_D1.Trinity.fasta| \
