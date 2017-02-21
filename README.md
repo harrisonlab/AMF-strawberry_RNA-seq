@@ -111,8 +111,10 @@ Velvet/Oases de-novo
 ```
 
 ### Transcript quality filter
+The assemblies are going to produce a lot of contigs/transcripts. The idea of this section is to find the set of "best" transcripts.
 
 Something like tr2aacds pipeline?
+
 
 derep_fragments (should) removes all exact fragments, but takes hours to run. cluster_fast by contrast uses a heuristic method for determining if a sequence matches, or not - and takes only minutes to run on a 100meg file.
 
