@@ -132,7 +132,6 @@ usearch9 -cluster_fast trinity_D20_C35_dereplicated.fasta -sort length -strand b
 #cap3 trinity_D20_C35_0.99-centroids.fasta >cap3_D20_C35_0.99.output
 ```
 
-### Merge transcriptomes 
 
 ### Align to reference genome
 
