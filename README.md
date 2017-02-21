@@ -119,11 +119,12 @@ Something like tr2aacds pipeline?
 derep_fragments (should) removes all exact fragments, but takes hours to run. cluster_fast by contrast uses a heuristic method for determining if a sequence matches, or not - and takes only minutes to run on a 100meg file.
 
 ```
+dereplicate.pl # also renames contigs
 get_longest_cds.pl
-dereplicate.pl
-sort_fasta.pl
-derep_fragments.pl # this is mega slow
-usearch -cluster_fast -id 1 # this is miles faster, but memory will limit the number of transcripts that can be processed - good reason to buy 64bit version?
+# dereplicate.pl - usearch will do this
+# sort_fasta.pl - usearch will do this
+# derep_fragments.pl # this is mega slow
+usearch -cluster_fast -id 1 -strand plus -sort length # this is miles faster, but memory will limit the number of transcripts that can be processed - good reason to buy 64bit version?
 
 #dereplicate_v2.pl trinity_D20_C35.Trinity.fasta> trinity_D20_C35_dereplicated.fasta
 
