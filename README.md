@@ -91,7 +91,7 @@ PIPELINE.sh -c assemble \
  --output $STRAWBERRY/assembled/trinity_D20
 ```
 
-De-novo
+Trinity De-novo
 ```
 PIPELINE.sh -c assemble \
  trinity \
@@ -102,6 +102,12 @@ PIPELINE.sh -c assemble \
  --grid_node_CPU 2 \
  --grid_node_max_memory 2G \
  --output $STRAWBERRY/assembled/trinity_D20_C35
+```
+
+Velvet/Oases de-novo
+```
+
+
 ```
 
 ### Transcript quality filter
