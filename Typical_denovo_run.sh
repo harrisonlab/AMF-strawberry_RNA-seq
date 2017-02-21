@@ -74,20 +74,31 @@ $STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c assemble \
  --grid_node_CPU 2 \
  --grid_node_max_memory 2G
 
-#Assemble TransAbyss
 #Assemble Velvet/Oases
 $STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c interleave \
  $STRAW_DN/normalised/D2/D2_C35_F_1.fa \
  $STRAW_DN/normalised/D2/D2_C35_R_2.fa \
  $STRAW_DN/normalised/D2
 
-velveth test 21 -fasta -shortPaired D2_C35.fa -noHash -create_binary
-mkdir K71
-ln test/* K71/.
-velveth K71 71 -reuse_Sequences -create_binary
-velvetg K71 -read_trkg yes
-oases K71 -ins_length 250 
+$STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c assemble velveth \
+ $STRAW_DN/assembled/D2/velveth_C35 \
+ $STRAW_DN/normalised/D2/D2_C35.fa
+
+for k in {21..69..4}; do
+	$STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c assemble vo \
+	$k \
+	$STRAW_DN/assembled/D2/velveth_C35 \
+	$STRAW_DN/assembled/D2/oases_C35
+done
+
+for k in {71..127..8}; do
+	$STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c assemble vo \
+	$k \
+	$STRAW_DN/assembled/D2/velveth_C35 \
+	$STRAW_DN/assembled/D2/oases_C35
+done
   
+#Assemble TransAbyss  
 #Assemble SOAP
 
 
