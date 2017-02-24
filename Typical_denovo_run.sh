@@ -40,17 +40,23 @@ for R1 in $STRAW_DN/cleaned/D2_1.fq.gz.aaaa*.f.*; do
   $R1 $R2
 done
 
+#concatenate
+$STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c concat \
+  $STRAW_DN/filtered \
+  D2
+  
 #normalise
-find $STRAW_DN/filtered -name '*.f.*'|sort|xargs -I% cat % > $STRAW_DN/filtered/D2_F
-find $STRAW_DN/filtered -name '*.r.*'|sort|xargs -I% cat % > $STRAW_DN/filtered/D2_R
+#find $STRAW_DN/filtered -name '*.f.*'|sort|xargs -I% cat % > $STRAW_DN/filtered/D2_F
+#find $STRAW_DN/filtered -name '*.r.*'|sort|xargs -I% cat % > $STRAW_DN/filtered/D2_R
 
 $STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c normalise \
+  $STRAW_DN/filtered \
   $STRAW_DN/normalised/D2 \
   --seqType fa \
   --JM 320G \
   --max_cov 35 \
-  --left $STRAW_DN/filtered/D2_F \
-  --right $STRAW_DN/filtered/D2_R \
+  --left D2_F.fa \
+  --right D2_R.fa \
   --pairs_together \
   --CPU 16 
 
