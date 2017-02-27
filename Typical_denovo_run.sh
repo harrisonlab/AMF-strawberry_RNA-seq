@@ -65,6 +65,20 @@ $STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c correct \
  $STRAW_DN/normalised/D2/D2_F.normalized_K25_C35_pctSD200.fa \
  $STRAW_DN/normalised/D2/D2_R.normalized_K25_C35_pctSD200.fa \
  $STRAW_DN/normalised/D2
+ 
+ #interleave fasta files (for velvet/oases)
+ $STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c interleave \
+ $STRAW_DN/normalised/D2/D2_C35_F_1.fa \
+ $STRAW_DN/normalised/D2/D2_C35_R_2.fa \
+ $STRAW_DN/normalised/D2
+
+#------ ALL THE ABOVE
+$STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c MEGA \
+  $STRAW_DN \
+  D2 \
+  5000000
+#-----
+
 
 #Assemble Trintity
 $STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c assemble \
@@ -81,11 +95,6 @@ $STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c assemble \
  --grid_node_max_memory 2G
 
 #Assemble Velvet/Oases
-$STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c interleave \
- $STRAW_DN/normalised/D2/D2_C35_F_1.fa \
- $STRAW_DN/normalised/D2/D2_C35_R_2.fa \
- $STRAW_DN/normalised/D2
-
 $STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c assemble velveth \
  $STRAW_DN/assembled/D2/velveth_C35 \
  $STRAW_DN/normalised/D2/D2_C35.fa
