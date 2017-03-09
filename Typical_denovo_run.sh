@@ -117,7 +117,21 @@ done
 #Assemble TransAbyss  
 #Assemble SOAP
 
+mkdir -p $STRAW_DN/assembled/D2/soap_C35
+cp $STRAW_DN/Denovo-assembly_pipeline/scripts/soap_config $STRAW_DN/assembled/D2/soap_C35/soap_config
+sed -i -e "s/MYINTERFILE/$STRAW_DN\/normalised\/D2\/D2_C35.fa/" $STRAW_DN/assembled/D2/soap_C35/soap_config
 
+for k in {21..65..4}; do
+	$STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c assemble SOAP\
+	$k \
+	$STRAW_DN/assembled/D2/soap_C35
+done
+
+for k in {71..119..8}; do
+	$STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c assemble SOAP\
+	$k \
+	$STRAW_DN/assembled/D2/soap_C35
+done
 
 # Filter transcripts
  $STRAW_DN/Denovo-assembly/scripts/dereplicate.pl trinity_D1.Trinity.fasta > out1.fa
