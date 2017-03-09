@@ -120,7 +120,10 @@ done
 
 
 # Filter transcripts
- $STRAW_DN/Denovo-assembly/scripts/dereplicate.pl trinity_D1.Trinity.fasta| \
- $STRAW_DN/Denovo-assembly/scripts/get_longest_cds.pl| \
- $STRAW_DN/Denovo-assembly/scripts/dereplicate.pl| \
- $STRAW_DN/Denovo-assembly/scripts/sort_fasta.pl >cds.derep.sorted.fa
+ $STRAW_DN/Denovo-assembly/scripts/dereplicate.pl trinity_D1.Trinity.fasta > out1.fa
+ $STRAW_DN/Denovo-assembly/scripts/get_longest_cds.pl out1.fa| \
+ $STRAW_DN/Denovo-assembly/scripts/sort_fasta.pl >cds.sorted.fa
+ 
+# $STRAW_DN/Denovo-assembly/scripts/dereplicate.pl| \
+
+ 
