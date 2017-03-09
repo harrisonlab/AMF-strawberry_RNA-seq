@@ -123,14 +123,16 @@ sed -i -e "s/MYINTERFILE/$STRAW_DN\/normalised\/D2\/D2_C35.fa/" $STRAW_DN/assemb
 
 for k in {21..65..4}; do
 	$STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c assemble SOAP\
-	$k \
-	$STRAW_DN/assembled/D2/soap_C35
+	all \
+	-K $k \
+	-s $STRAW_DN/assembled/D2/soap_C35/soap_config
 done
 
 for k in {71..119..8}; do
 	$STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c assemble SOAP\
-	$k \
-	$STRAW_DN/assembled/D2/soap_C35
+	all \
+	-K $k \
+	-s $STRAW_DN/assembled/D2/soap_C35/soap_config
 done
 
 # Filter transcripts
