@@ -121,9 +121,10 @@ done
 
 # Filter transcripts
  $STRAW_DN/Denovo-assembly/scripts/dereplicate.pl trinity_D1.Trinity.fasta > out1.fa
- $STRAW_DN/Denovo-assembly/scripts/get_longest_cds.pl out1.fa| \
- $STRAW_DN/Denovo-assembly/scripts/sort_fasta.pl >cds.sorted.fa
- usearch9 -cluster_fast in.fa -id 1 -strand plus -sort length -centroids out.fa
+ $STRAW_DN/Denovo-assembly/scripts/get_longest_cds.pl out1.fa >cds.fa
+ cd-hit-est -c 1.0 -i cds.fa -o cds.defrag.fa
+# $STRAW_DN/Denovo-assembly/scripts/sort_fasta.pl >cds.sorted.fa
+# usearch9 -cluster_fast in.fa -id 1 -strand plus -sort length -centroids out.fa
 # $STRAW_DN/Denovo-assembly/scripts/dereplicate.pl| \
 
  
