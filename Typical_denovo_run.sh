@@ -119,7 +119,7 @@ done
 
 mkdir -p $STRAW_DN/assembled/D2/soap_C35
 cp $STRAW_DN/Denovo-assembly_pipeline/scripts/soap_config $STRAW_DN/assembled/D2/soap_C35/soap_config
-sed -i -e "s/MYINTERFILE/$STRAW_DN\/normalised\/D2\/D2_C35.fa/" $STRAW_DN/assembled/D2/soap_C35/soap_config
+sed -i -e "s|MYINTERFILE|$STRAW_DN/normalised/D2/D2_C35.fa|" $STRAW_DN/assembled/D2/soap_C35/soap_config
 
 for k in {21..65..4}; do
 	$STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c assemble SOAP\
