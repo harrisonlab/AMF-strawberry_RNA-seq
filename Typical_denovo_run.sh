@@ -114,7 +114,24 @@ for k in {71..119..8}; do
 	$STRAW_DN/assembled/D2/oases_C35
 done
   
-#Assemble TransAbyss  
+#Assemble TransAbyss 
+transabyss --pe D2_C35.fa --mpi 8 --threads 8 --kmer 34
+
+mkdir -p $STRAW_DN/assembled/D2/trans_C35
+for k in {21..65..4}; do
+	$STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c trans TRANS \
+	--k $k \
+	--pe $STRAW_DN/normalised/D2/D2_C35.fa
+	$STRAW_DN/assembled/D2/trans_C35
+done
+
+for k in {71..119..8}; do
+	$STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c assemble TRANS \
+	--k $k \
+	--pe $STRAW_DN/normalised/D2/D2_C35.fa
+	$STRAW_DN/assembled/D2/trans_C35
+done	
+
 #Assemble SOAP
 
 mkdir -p $STRAW_DN/assembled/D2/soap_C35
@@ -122,14 +139,14 @@ cp $STRAW_DN/Denovo-assembly_pipeline/scripts/soap_config $STRAW_DN/assembled/D2
 sed -i -e "s|MYINTERFILE|$STRAW_DN/normalised/D2/D2_C35.fa|" $STRAW_DN/assembled/D2/soap_C35/soap_config
 
 for k in {21..65..4}; do
-	$STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c assemble SOAP\
+	$STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c assemble SOAP \
 	all \
 	-K $k \
 	-s $STRAW_DN/assembled/D2/soap_C35/soap_config
 done
 
 for k in {71..119..8}; do
-	$STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c assemble SOAP\
+	$STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c assemble SOAP \
 	all \
 	-K $k \
 	-s $STRAW_DN/assembled/D2/soap_C35/soap_config
