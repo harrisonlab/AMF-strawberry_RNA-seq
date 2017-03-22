@@ -118,18 +118,20 @@ done
 transabyss --pe D2_C35.fa --mpi 8 --threads 8 --kmer 34
 
 mkdir -p $STRAW_DN/assembled/D2/trans_C35
-for k in {21..65..4}; do
+for k in {22..66..4}; do
 	$STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c trans TRANS \
+	$STRAW_DN/assembled/D2/trans_C35
+	$k
 	--k $k \
 	--pe $STRAW_DN/normalised/D2/D2_C35.fa
-	$STRAW_DN/assembled/D2/trans_C35
 done
 
-for k in {71..119..8}; do
+for k in {72..120..8}; do
 	$STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c assemble TRANS \
+	$STRAW_DN/assembled/D2/trans_C35
+	$k
 	--k $k \
 	--pe $STRAW_DN/normalised/D2/D2_C35.fa
-	$STRAW_DN/assembled/D2/trans_C35
 done	
 
 #Assemble SOAP
