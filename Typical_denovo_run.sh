@@ -79,6 +79,34 @@ $STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c MEGA \
   5000000
 #-----
 
+Align to genome
+
+For genome guided assembly only
+
+### Generate index
+STAR --runMode genomeGenerate --genomeDir $OUTDIR --genomeFastaFiles redgauntlet.fa --sjdbGTFfile redgauntlet.gff --genomeChrBinNbits 11
+### Align reads
+STAR \
+ --genomeDir $STRAWBERRY/genome/star_octo/ \
+ --outFileNamePrefix $STRAWBERRY/aligned/D20.2 \
+ --readFilesIn  $STRAWBERRY/normalised/left.norm.fa $STRAWBERRY/normalised/right.norm.fa \
+ --runThreadN 16 \
+ --outSAMtype BAM SortedByCoordinate \
+ --outFilterMatchNminOverLread 0.4 \
+ --outFilterScoreMinOverLread 0.4
+Assemble
+
+Genome-guided with trinity
+
+PIPELINE.sh -c assemble \
+ trinity \
+ --genome_guided_bam $STRAWBERRY/aligned/D20.2Aligned.sortedByCoord.out.bam \
+ --genome_guided_max_intron 10000 \
+ --max_memory 320G \
+ --CPU 16 \
+ --grid_node_CPU 2 \
+ --grid_node_max_memory 2G \
+ --output $STRAWBERRY/assembled/trinity_D20
 
 #Assemble Trintity (De novo)
 $STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c assemble \
