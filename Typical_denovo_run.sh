@@ -80,7 +80,7 @@ $STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c MEGA \
 #-----
 
 
-#Assemble Trintity
+#Assemble Trintity (De novo)
 $STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c assemble \
  trinity \
  --seqType fa \
@@ -94,6 +94,20 @@ $STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c assemble \
  --grid_node_max_memory 2G
 
  #--no_normalize_reads for latest version of trinity
+ 
+ #Assemble Trintity genome guided
+ $STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c assemble \
+   trinity \
+  --seqType fa \
+ --left $STRAW_DN/normalised/D2/D2_F_K35_1.fa \
+ --right $STRAW_DN/normalised/D2/D2_R_K35_2.fa \
+ --output $STRAW_DN/assembled/trinity_D2 \
+ --full_cleanup \
+ --max_memory 320G \
+ --CPU 16 \
+ --grid_node_CPU 2 \
+ --grid_node_max_memory 2G  
+   
  
 #Assemble Velvet/Oases
 $STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c assemble velveth \
