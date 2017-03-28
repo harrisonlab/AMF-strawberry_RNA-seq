@@ -197,10 +197,26 @@ for k in {71..119..8}; do
 done
 
 # Filter transcripts
+cat  $STRAW_DN/assembled/D2/oases_C35/*.fa > combined.fa
+
+$STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c post \
+  $STRAW_DN/assembled/D2/oases_C35/combined.fa \
+  D2_oases_C35 \
+  $STRAW_DN/assembled/D2 
+
+ $STRAW_DN/assembled/D2/*C35*; do 
+ 	p=$(echo $D|awk -F"/" '{print $(NF-1),$NF}' OFS="_"); 
+  	 $STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c post \
+	  $D/combined.fa \
+	  $p \
+	  $STRAW_DN/assembled/D2; 
+done
+
+
  $STRAW_DN/Denovo-assembly/scripts/dereplicate.pl trinity_D1.Trinity.fasta > out1.fa
  $STRAW_DN/Denovo-assembly/scripts/get_longest_cds.pl out1.fa >cds.fa
- cd-hit-est -c 1.0 -i cds.fa -o cds.defrag.fa
- $STRAW_DN/Denovo-assembly/scripts/sort_fasta.pl cds.defrag.fa >cds.defrag.sorted.fa
+ cd-hit-est -c 1.0 -i cds.fa -M 0 -T 8 -o cds.defrag.fa
+ #$STRAW_DN/Denovo-assembly/scripts/sort_fasta.pl cds.defrag.fa >cds.defrag.sorted.fa
 # usearch9 -cluster_fast in.fa -id 1 -strand plus -sort length -centroids out.fa
 # $STRAW_DN/Denovo-assembly/scripts/dereplicate.pl| \
 
