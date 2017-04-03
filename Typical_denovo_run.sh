@@ -220,10 +220,12 @@ done
 # usearch9 -cluster_fast in.fa -id 1 -strand plus -sort length -centroids out.fa
 # $STRAW_DN/Denovo-assembly/scripts/dereplicate.pl| \
 
-# Combine filtered transcripts and filter round 2 (remove incomplete at this stage ~ could have done this earlier..)
-#grep -P -A1 "_\d*_3C$" *C35*.fa | /
-$STRAW_DN/Denovo-assembly/scripts/sort_fasta > combined_sorted.fa # filters out less than 75 length
-cd-hit-est -c 1.0 -i combined_sorted.fa -M 0 -T 8 -o combined.defrag.fa 
+# Combine filtered transcripts and filter round 2 
+# First step is to check for complete cds at least 75 
+grep -P -A1 --no-group-separator "_\d*_3C$" *C35*.fa | \
+$STRAW_DN/Denovo-assembly_pipeline/scripts/sort_fasta > combined.sorted.cds.fa 
+awk -F"_" '{if(NF>1){x=$5-$7*3;if(x>=75){k=1}else{k=0};}if(k==1){print}}' combined.sorted.cds.fa > filtered.cds.fa
+cd-hit-est -c 1.0 -i filtered.cds.fa -M 0 -T 8 -o  combined.defrag.fa
 
 usearch9 -makeudb_ublast combined.defrag.fa  -output db.udb # likely to very close to 32 bit usearch mem limit
 usearch9 -ublast combined.defrag.fa -db db.udb -id 0.97 -evalue 1e-2 -accel 0.06 -strand plus -userout res2.uo  -userfields query+target+clusternr+id+ql+tl
