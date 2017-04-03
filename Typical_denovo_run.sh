@@ -220,9 +220,9 @@ done
 # usearch9 -cluster_fast in.fa -id 1 -strand plus -sort length -centroids out.fa
 # $STRAW_DN/Denovo-assembly/scripts/dereplicate.pl| \
 
-# Combine filtered transcripts and filter round 2
-cat soap/ trinity/ oases/ trans/ combined.fa > combined.fa
-$STRAW_DN/Denovo-assembly/scripts/sort_fasta > combined_sorted.fa #filters out less than 75 length
+# Combine filtered transcripts and filter round 2 (remove incomplete at this stage ~ could have done this earlier..)
+#grep -P -A1 "_\d*_3C$" *C35*.fa | /
+$STRAW_DN/Denovo-assembly/scripts/sort_fasta > combined_sorted.fa # filters out less than 75 length
 cd-hit-est -c 1.0 -i combined_sorted.fa -M 0 -T 8 -o combined.defrag.fa 
 
 usearch9 -makeudb_ublast combined.defrag.fa  -output db.udb # likely to very close to 32 bit usearch mem limit
