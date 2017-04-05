@@ -222,9 +222,9 @@ done
 
 # Combine filtered transcripts and filter round 2 
 # First step is to check for complete cds at least 75 
-grep -P -A1 --no-group-separator "_\d*_3C$" *C35*.fa | \
-$STRAW_DN/Denovo-assembly_pipeline/scripts/sort_fasta > combined.sorted.cds.fa 
-awk -F"_" '{if(NF>1){x=$5-$7*3;if(x>=75){k=1}else{k=0};}if(k==1){print}}' combined.sorted.cds.fa > filtered.cds.fa
+cat*C35*.fa | grep -P -A1 --no-group-separator "_\d*_3C$" | \
+$STRAW_DN/Denovo-assembly_pipeline/scripts/sort_fasta | \
+awk -F"_" '{if(NF>1){x=$5-$7*3;if(x>=75){k=1}else{k=0};}if(k==1){print}}' > filtered.cds.fa
 cd-hit-est -c 1.0 -i filtered.cds.fa -M 0 -T 8 -o  combined.defrag.fa
 
 usearch9 -makeudb_ublast combined.defrag.fa  -output db.udb # likely to very close to 32 bit usearch mem limit
