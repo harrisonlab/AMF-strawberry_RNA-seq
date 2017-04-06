@@ -1,7 +1,7 @@
 #trim
 for R1 in $STRAW/../raw/D*_1.fq; do
   R2=$(echo $R1|sed 's/_1/_2/');
-  $STRAW_DN/RNA-seq_pipeline/scripts/PIPELINE.sh -c trim \
+  $STRAW/RNA-seq_pipeline/scripts/PIPELINE.sh -c trim \
   $R1 \
   $R2 \
   $STRAW/trimmed \
