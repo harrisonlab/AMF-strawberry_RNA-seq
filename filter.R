@@ -47,26 +47,30 @@ colnames(a2) <- "V2"
 a3 <- data.table(unique(inner_join(a1,a2)[,V1]))
 alternatives <- inner_join(a1,a3)
 a1 <- anti_join(a1,alternatives)
+setorder(a1,-V5)
 ## abritarily select primary sequence and move rest to alternatives (which will probably be dumped!)
-dic1<-list()
-dic2<-list()
-for (i in 1:dim(a1)[1]){
-  if(is.null(dic1[[a1$V1[i]]])) {
-    if(is.null(dic1[[a1$V2[i]]])){
-      dic1<-append(dic1,a1$V1[i])
-      if(is.null(dic2[[a1$V2[i]]])){
-        dic2<-append(dic2,a1$V2[i])
-      }
-    } else {
-      if(is.null(dic2[[a1$V1[i]]])){
-        dic2<-append(dic2,a1$V1[i])
-      }
-    }  
-  } else {
-    if(is.null(dic2[[a1$V2[i]]])){
-      dic2<-append(dic2,a1$V2[i])
-    }
-  }
-}
+## this is exceptionally slow - I'll rewrite and using perl hashes
+#dic1<-list()
+#dic2<-list()
+#for (i in 1:dim(a1)[1]){
+#  if(is.null(dic1[[a1$V1[i]]])) {
+#    if(is.null(dic1[[a1$V2[i]]])){
+#      dic1<-append(dic1,a1$V1[i])
+#      if(is.null(dic2[[a1$V2[i]]])){
+#        dic2<-append(dic2,a1$V2[i])
+#      }
+#    } else {
+#      if(is.null(dic2[[a1$V1[i]]])){
+#        dic2<-append(dic2,a1$V1[i])
+#      }
+#    }  
+#  } else {
+#    if(is.null(dic2[[a1$V2[i]]])){
+#      dic2<-append(dic2,a1$V2[i])
+#    }
+#  }
+#}
 
-exists('a', where=foo)
+write.table(primary[,1,with=F],"primary.txt",row.names=F,col.names=F,quote=F)
+
+write.table(a1[,1:2,with=F],"alternative.txt",row.names=F,col.names=F,quote=F)
