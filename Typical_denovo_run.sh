@@ -233,3 +233,17 @@ usearch9 -ublast combined.clustered.fa -db db.udb -id 0.97 -evalue 1e-2 -accel 0
 #awk -F"\t" '{a=substr($1,length($1),1);b=substr($1,length($1)-4,1);if(a=="C"&&b!="-"){x="C"}else{x="I"};$(NF+1)=x;a=substr($2,length($2),1);b=substr($2,length($2)-4,1);if(a=="C"&&b!="-"){x="C"}else{x="I"};$(NF+1)=x;print}' OFS="\t" res2.uo >res.f.uo
 
 ##### then process res.uo with filter.R to give transcripts.txt 
+transcripts.fa
+
+~/pipelines/Denovo-assembly/scripts/sort_fasta.pl transcripts.fa|
+awk -F"_" '{if(NF>1){x=$7;k=1;}else{k=0};if(k==1){print}else{y=substr($1,x*3+1);k==1;print y}}' > cds.transcripts.fa
+
+for D in $STRAW_DN/assembled/D*; do 
+	$STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c post2 \
+	$D/filtered.cds.fa 
+	$D/final_cds; 
+done
+
+
+
+
