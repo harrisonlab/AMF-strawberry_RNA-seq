@@ -36,4 +36,4 @@ cd-hit-est -c 0.97 -i transcripts.fa -M 0 -T 8 -o  derep.fa
 usearch9 -makeudb_ublast derep.fa -output db.udb #could be close to 32 bit usearch mem limit
 usearch9 -ublast derep.fa -db db.udb -id 0.97 -evalue 1e-2 -accel 0.06 -strand plus -userout res.uo  -userfields query+target+clusternr+id+ql+tl+qcov+tcov+diffs+caln
 
-transrate 
+transrate --assembly $ASSEMBLY  --left $LEFT --right $RIGHT 
