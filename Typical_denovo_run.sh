@@ -238,3 +238,12 @@ grep "^@" -v Aligned.out.sam|awk -F"\t" '{print $1,$2,$3,$4,$5,length($10),$12}'
 awk -F"\t" '{x=x+1;if($2==16||$2==272){start=$4-$6+1;d=start"\t"$4"\t0\t-"}else{end=$4+$6-1;d=$4"\t"end"\t0\t+"}; \
 	     print "TA"x,"GD_STAR","transcript",d,"0","transcript_origin \""$1"\""}' OFS="\t" > transcripts.gff
 
+
+grep "^@" -v Aligned.out.sam|awk -F"\t" '{print $1,$2,$3,$4,$5,length($10),$12}' OFS="\t"| \
+awk -F"\t" '{x=x+1;end=$4+$6-1;d=$4"\t"end"\t0\t+"; \
+	     print "TA"x,"GD_STAR","transcript",d,"0","transcript_origin \""$1"\""}' OFS="\t" > transcripts.gff
+
+grep ">" Unmapped.out.mate1|
+sed -e 's|>||'|
+awk -F"_" '{x=x+1;print "TU"x,"GD_PIPE","transcript","1",$5,"0","+","0","transcript_origin \""$0"\""}' OFS="\t" >> transcripts.gff
+
