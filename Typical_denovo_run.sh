@@ -211,3 +211,30 @@ $STRAW_DN/Denovo-assembly_pipeline/scripts/PIPELINE.sh -c post \
 	  $p \
 	  $STRAW_DN/assembled/D2; 
 done
+
+# Transrate
+
+# Cat and filter
+# cd_hit 95%, ublast 97% (filter.R)
+
+> transcript.fa
+# Align with STAR to octoploid genome
+STAR 	--genome octoploid \ # edit this 
+	--input transcripts \ # edit this 
+	--outFilterMultimapScoreRange 20 \
+	--outFilterScoreMinOverLread 0   \
+	--outFilterMatchNminOverLread 0.66 \
+	--outFilterMismatchNmax 1000   \
+	--winAnchorMultimapNmax 200   \
+	--seedSearchLmax 30   \
+	--seedSearchStartLmax 12  \
+	--seedPerReadNmax 100000   \
+	--seedPerWindowNmax 100   \
+	--alignTranscriptsPerReadNmax 100000   \
+	--alignTranscriptsPerWindowNmax 10000 \
+	--outPutUnmappedRead # edit this
+# create gff
+grep "^@" -v Aligned.out.sam|awk -F"\t" '{print $1,$2,$3,$4,$5,length($10),$12}' OFS="\t"| \
+awk -F"\t" '{x=x+1;if($2==16||$2==272){start=$4-$6+1;d=start"\t"$4"\t0\t-"}else{end=$4+$6-1;d=$4"\t"end"\t0\t+"}; \
+	     print "TA"x,"GD_STAR","transcript",d,"0","transcript_origin \""$1"\""}' OFS="\t" > transcripts.gff
+
