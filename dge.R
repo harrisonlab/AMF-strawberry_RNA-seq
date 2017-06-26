@@ -22,12 +22,12 @@ library(tibble)
 qq <- lapply(list.files(".",".*.txt$",full.names=T,recursive=F),function(x) fread(x))
 
 # rename the sample columns (7th column in a feature counts table, saved as the path to the BAM file)
-# in the below I'm saving the 8th ([[1]][8]) path depth (which was the informative folder name containg the BAM file)
-invisible(lapply(seq(1:length(qq)), function(i) colnames(qq[[i]])[7]<<-strsplit(colnames(qq[[i]])[7],"\\/")[[1]][8]))
+# in the below I'm saving the 10th ([[1]][10]) path depth (which is the informative part of the file name)
+invisible(lapply(seq(1:length(qq)), function(i) colnames(qq[[i]])[7]<<-strsplit(colnames(qq[[i]])[7],"\\/")[[1]][10]))
 
 # merge the list of data tables into a single data table
 m <- Reduce(function(...) merge(..., all = T,by=c("Geneid","Chr","Start","End","Strand","Length")), qq)
-
+colnames(m) <- sub("\\.Aligned.*","",colnames(m))
 # output "countData"
 write.table(m[,c(1,7:(ncol(m))),with=F],"countData",sep="\t",na="",quote=F,row.names=F) 
 # output gene details
@@ -40,12 +40,11 @@ write.table(m[,1:6,with=F],"genes.txt",sep="\t",quote=F,row.names=F)
 colData <- read.table("colData",header=T,sep="\t")
 # colData$condition <- rep(c("02780","02793","F55","10170","MWT","MOL","MKO","TJ"),3) # need to test this - will set columns to numbers 
 countData <- read.table("countData",sep="\t",header=T,row.names=1) # produced above, could just subset the data table countData <- m[,c(1,7:length(m),with=F]	
-countData <- countData[,colData$SampleID] # reorder countData columns to same order as colData rows
+countData <- countData[,as.character(colData$Sample_ID)] # reorder countData columns to same order as colData rows
 
-annotations <- fread("WT_annotation.tsv")
-annotations$query_id <- sub("\\.t*","",annotations$query_id) # remove .t1 from annotation gene names
+# annotations <- fread("WT_annotation.tsv")
+# annotations$query_id <- sub("\\.t*","",annotations$query_id) # remove .t1 from annotation gene names
 
-	
 	
 #===============================================================================
 #       DESeq2 analysis
@@ -58,7 +57,7 @@ annotations$query_id <- sub("\\.t*","",annotations$query_id) # remove .t1 from a
 dds <- 	DESeqDataSetFromMatrix(countData,colData,~1) 
 sizeFactors(dds) <- sizeFactors(estimateSizeFactors(dds))
 dds$groupby <- paste(dds$condition,dds$sample,sep="_")
-dds <- collapseReplicates(dds,groupby=dds$groupby)
+#dds <- collapseReplicates(dds,groupby=dds$groupby)
 design=~condition
 design(dds) <- design # could just replace the ~1 in the first step with the design, if you really wanted to...
 dds <- DESeq(dds,parallel=T)
