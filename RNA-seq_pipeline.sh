@@ -26,7 +26,7 @@ for R1 in $STRAW/filtered/D*_1*; do
  $STRAW/RNA-seq_pipeline/scripts/PIPELINE.sh -c star \
  $STRAW/../star_diploid \
  $STRAW/aligned/diploid $pre $R1 $R2 \
- --readFilesCommand zcat -outSAMtype BAM Unsorted; 
+ --readFilesCommand zcat -outSAMtype BAM Unsorted; #--outFilterMatchNminOverLread 0.3 --outFilterScoreMinOverLread 0.3
 done
 
 # counts
