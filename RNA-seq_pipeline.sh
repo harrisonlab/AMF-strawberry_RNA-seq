@@ -10,7 +10,6 @@ for R1 in $STRAW/../raw/D17_1.fq; do
 done
 
 # filter
-counter=0
 for R1 in $STRAW/trimmed/D*_1*; do
 	R2=$(echo $R1|sed 's/_1/_2/');
 	S=$(echo $R1|awk -F"/" '{print $NF}'|awk -F"_" '{print $1,$2,$3}' OFS="_")
