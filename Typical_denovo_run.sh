@@ -218,9 +218,10 @@ done
 # cd_hit 95%, ublast 97% (filter.R)
 
 > transcript.fa
-# Align with STAR to octoploid genome
-STAR 	--genome octoploid \ # edit this 
-	--input transcripts \ # edit this 
+# Align with STAR to diploid genome to look for chimeras
+
+STAR 	--genome $STAR_DN/../genome/diploid \ # edit this 
+	--input $STRAW_DN/transcriptome/transcripts.fa \ # edit this 
 	--outFilterMultimapScoreRange 20 \
 	--outFilterScoreMinOverLread 0   \
 	--outFilterMatchNminOverLread 0.66 \
