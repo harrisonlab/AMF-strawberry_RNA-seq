@@ -218,6 +218,19 @@ done
 # cd_hit 95%, ublast 97% (filter.R)
 
 > transcript.fa
+
+# create mrna/transcrits for diploid from gff + genome
+grep -P "mRNA[^;]" GCF_000184155.1_FraVesHawaii_1.0_genomic.gff|awk -F"\t" '{gsub(/.*transcript_id=/,"",$NF);print $NF,$1,$4,$5,$7}' OFS="\t"  > mrna.vesca.saf
+```R
+library(Biostrings)
+vesca <- readDNAStringSet("GCF_000184155.1_FraVesHawaii_1.0_genomic.fna")
+mrna <- read.table(mrna.vesca.saf,header=F)
+mytranscripts<-DNAStringSet(x=vesca[mrna[,2]],start=mrna[,3],end=mrna[,4])
+mytranscripts@ranges@NAMES <- mrna[,1]
+writeXStringSet(mytranscripts,"vesca.transcripts.fa",format="fasta")
+```
+
+
 # Align with STAR to diploid genome to look for chimeras
 
 STAR 	--genomeDir $STAR_DN/../genome/star_diploid \ # edit this 
