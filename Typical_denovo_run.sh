@@ -220,7 +220,7 @@ done
 > transcript.fa
 # Align with STAR to diploid genome to look for chimeras
 
-STAR 	--genome $STAR_DN/../genome/diploid \ # edit this 
+STAR 	--genomeDir $STAR_DN/../genome/star_diploid \ # edit this 
 	--input $STRAW_DN/transcriptome/transcripts.fa \ # edit this 
 	--outFilterMultimapScoreRange 20 \
 	--outFilterScoreMinOverLread 0   \
@@ -233,7 +233,11 @@ STAR 	--genome $STAR_DN/../genome/diploid \ # edit this
 	--seedPerWindowNmax 100   \
 	--alignTranscriptsPerReadNmax 100000   \
 	--alignTranscriptsPerWindowNmax 10000 \
-	--outPutUnmappedRead # edit this
+	---outReadsUnmapped Fastx \
+	--outFileNamePrefix diploid_trans \
+	--chimOutType SeparateSAMold \
+	--chimSegmentMin 50
+	
 # create gff
 grep "^@" -v Aligned.out.sam|awk -F"\t" '{print $1,$2,$3,$4,$5,length($10),$12}' OFS="\t"| \
 awk -F"\t" '{x=x+1;if($2==16||$2==272){start=$4-$6+1;d=start"\t"$4"\t0\t-"}else{end=$4+$6-1;d=$4"\t"end"\t0\t+"}; \
