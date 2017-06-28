@@ -229,6 +229,11 @@ mytranscripts<-DNAStringSet(x=vesca[mrna[,2]],start=mrna[,3],end=mrna[,4])
 mytranscripts@ranges@NAMES <- mrna[,1]
 writeXStringSet(mytranscripts,"vesca.transcripts.fa",format="fasta")
 ```
+usearch9 -makeudb_usearch ../../genome/vesca.transcripts.fa -output vesca.sdb
+usearch9 -usearch_local transcripts.fa -db vesca.sdb -id 0.95 -maxaccepts 3 -blast6out hits.out -strand both
+
+awk -F"\t" '{if(o==$1){if(t!=$2){p=1}}else{if(p==1){print n};p=0;n="";o=$1;t=$2};n=n$0"\n"}' hits.out >pot.chimera.out
+
 
 
 # Align with STAR to diploid genome to look for chimeras
