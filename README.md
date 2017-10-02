@@ -6,6 +6,18 @@ Two transcriptomes will be built - de novo and genome guided de novo.
 
 Genome guided will have an extra step of aligning reads to the reference genome.
 
+## STUFF TO DO
+I'm going to split this into two projects 
+### Denovo_transcriptome-pipeline
+Denove transcriptome of polyploid plants
+### RNA-seq_projects
+An RNA-seq_pipeline project already exists in eastmallingresearch, I'll create (or rename this) a new project folder as per metbarcoding_projects  
+
+The stuff below is for the denovo pipeline  
+There are a few R scripts with DGE analysis which will go in the projects folder
+
+
+
 ## QC
 FastQC
 ## Denovo assembly
