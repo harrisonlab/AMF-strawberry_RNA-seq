@@ -78,17 +78,19 @@ alpha <- 0.05
 
 res <- results(dds,alpha=alpha)
 
-#### Week 4 only #####
+#### Week 4 or 6  #####
 
-# remove block4 (week 6) data
-dds2 <- dds[,dds$block!="B4"]
-
-# remove B4 level from block column in dds
+# remove (or keep) block4 (week 6) data
+dds2 <- dds[,dds$block!="B4"]   # week 4
+#dds2 <- dds[,dds$block=="B4"]  # week 6
+                 
+# remove unused levels from block and time columns
 dds2$block <- droplevels(dds2$block)
 
 # model design - remove block effect
 design=~block+condition #+block:condition
-
+# design=~condition # week 6 (no block info)
+ 
 # add model to dds
 design(dds2) <- design 
 
@@ -111,36 +113,43 @@ summary(res)
 res.merge <- left_join(rownames_to_column(as.data.frame(res)),go_annot,by=c("rowname"="GENE_ID"))
 
 # write output
-write.table(res.merge,"w4_amf_vs_ctrl.txt",sep="\t",quote=F,row.names=F,na="")
-
-# Sterile vs control
-contrast=c("condition","Sterile","control")
-res <- results(dds2,alpha=alpha,contrast=contrast,parallel=T)
-summary(res)
-res.merge <- left_join(rownames_to_column(as.data.frame(res)),go_annot,by=c("rowname"="GENE_ID"))
-write.table(res.merge,"w4_sterile_vs_ctrl.txt",sep="\t",quote=F,row.names=F,na="")
-
-# Sterile_Filtrate vs control
-contrast=c("condition","Sterile_Filtrate","control")
-res <- results(dds2,alpha=alpha,contrast=contrast,parallel=T)
-summary(res)
-res.merge <- left_join(rownames_to_column(as.data.frame(res)),go_annot,by=c("rowname"="GENE_ID"))
-write.table(res.merge,"w4_Sterile_Filtrate_vs_ctrl.txt",sep="\t",quote=F,row.names=F,na="")
+write.table(res.merge,"w6_amf_vs_ctrl.txt",sep="\t",quote=F,row.names=F,na="")
 
 # AMF vs Sterile
 contrast=c("condition","AMF","Sterile")
 res <- results(dds2,alpha=alpha,contrast=contrast,parallel=T)
 summary(res)
 res.merge <- left_join(rownames_to_column(as.data.frame(res)),go_annot,by=c("rowname"="GENE_ID"))
-write.table(res.merge,"w4_AMF_vs_sterile.txt",sep="\t",quote=F,row.names=F,na="")
+write.table(res.merge,"w6_AMF_vs_sterile.txt",sep="\t",quote=F,row.names=F,na="")
 
 # AMF vs Sterile_filtrate
 contrast=c("condition","AMF","Sterile_Filtrate")
 res <- results(dds2,alpha=alpha,contrast=contrast,parallel=T)
 summary(res)
 res.merge <- left_join(rownames_to_column(as.data.frame(res)),go_annot,by=c("rowname"="GENE_ID"))
-write.table(res.merge,"w4_AMF_vs_sterile_filtrate.txt",sep="\t",quote=F,row.names=F,na="")
+write.table(res.merge,"w6_AMF_vs_sterile_filtrate.txt",sep="\t",quote=F,row.names=F,na="")                 
+                 
+# Sterile vs control
+contrast=c("condition","Sterile","control")
+res <- results(dds2,alpha=alpha,contrast=contrast,parallel=T)
+summary(res)
+res.merge <- left_join(rownames_to_column(as.data.frame(res)),go_annot,by=c("rowname"="GENE_ID"))
+write.table(res.merge,"w6_sterile_vs_ctrl.txt",sep="\t",quote=F,row.names=F,na="")
 
+# Sterile_Filtrate vs control
+contrast=c("condition","Sterile_Filtrate","control")
+res <- results(dds2,alpha=alpha,contrast=contrast,parallel=T)
+summary(res)
+res.merge <- left_join(rownames_to_column(as.data.frame(res)),go_annot,by=c("rowname"="GENE_ID"))
+write.table(res.merge,"w6_Sterile_Filtrate_vs_ctrl.txt",sep="\t",quote=F,row.names=F,na="")
+                 
+# Sterile vs Sterile_Filtrate
+contrast=c("condition","Sterile","Sterile_Filtrate")
+res <- results(dds2,alpha=alpha,contrast=contrast,parallel=T)
+summary(res)
+res.merge <- left_join(rownames_to_column(as.data.frame(res)),go_annot,by=c("rowname"="GENE_ID"))
+write.table(res.merge,"w6_sterile_vs_Sterile_Filtrate.txt",sep="\t",quote=F,row.names=F,na="")
+            
 #===============================================================================
 #       PCA analysis
 #===============================================================================
