@@ -80,6 +80,7 @@ res <- results(dds,alpha=alpha)
 
 #### Week 4 or 6  #####
 
+wk = "w4" # or w6                 
 # remove (or keep) block4 (week 6) data
 dds2 <- dds[,dds$block!="B4"]   # week 4
 #dds2 <- dds[,dds$block=="B4"]  # week 6
@@ -113,43 +114,63 @@ summary(res)
 res.merge <- left_join(rownames_to_column(as.data.frame(res)),go_annot,by=c("rowname"="GENE_ID"))
 
 # write output
-write.table(res.merge,"w6_amf_vs_ctrl.txt",sep="\t",quote=F,row.names=F,na="")
+write.table(res.merge,paste(wk,"AMF_vs_ctrl.txt",sep="_"),sep="\t",quote=F,row.names=F,na="")
 
+# produce an MA plot of the results
+pdf(paste(wk,"AMF_vs_ctrl_MA_plot.pdf",sep="_"))
+plot_ma(res.merge,textSize=22,textFont="sans")
+dev.off()                 
+                 
 # AMF vs Sterile
 contrast=c("condition","AMF","Sterile")
 res <- results(dds2,alpha=alpha,contrast=contrast,parallel=T)
 summary(res)
 res.merge <- left_join(rownames_to_column(as.data.frame(res)),go_annot,by=c("rowname"="GENE_ID"))
-write.table(res.merge,"w6_AMF_vs_sterile.txt",sep="\t",quote=F,row.names=F,na="")
-
+write.table(res.merge,paste(wk,"AMF_vs_sterile.txt",sep="_"),sep="\t",quote=F,row.names=F,na="")
+pdf(paste(wk,"AMF_vs_sterile_MA_plot.pdf",sep="_"))
+plot_ma(res.merge,textSize=22,textFont="sans")
+dev.off()                 
+  
 # AMF vs Sterile_filtrate
 contrast=c("condition","AMF","Sterile_Filtrate")
 res <- results(dds2,alpha=alpha,contrast=contrast,parallel=T)
 summary(res)
 res.merge <- left_join(rownames_to_column(as.data.frame(res)),go_annot,by=c("rowname"="GENE_ID"))
-write.table(res.merge,"w6_AMF_vs_sterile_filtrate.txt",sep="\t",quote=F,row.names=F,na="")                 
-                 
+write.table(res.merge,paste(wk,"AMF_vs_sterile_filtrate.txt",sep="_"),sep="\t",quote=F,row.names=F,na="")                 
+pdf(paste(wk,"AMF_vs_sterile_filtrate_MA_plot.pdf",sep="_"))
+plot_ma(res.merge,textSize=22,textFont="sans")
+dev.off()                 
+                  
 # Sterile vs control
 contrast=c("condition","Sterile","control")
 res <- results(dds2,alpha=alpha,contrast=contrast,parallel=T)
 summary(res)
 res.merge <- left_join(rownames_to_column(as.data.frame(res)),go_annot,by=c("rowname"="GENE_ID"))
-write.table(res.merge,"w6_sterile_vs_ctrl.txt",sep="\t",quote=F,row.names=F,na="")
-
+write.table(res.merge,paste(wk,"sterile_vs_ctrl.txt",sep="_"),sep="\t",quote=F,row.names=F,na="")
+pdf(paste(wk,"sterile_vs_ctrl_MA_plot.pdf",sep="_"))
+plot_ma(res.merge,textSize=22,textFont="sans")
+dev.off()                 
+  
 # Sterile_Filtrate vs control
 contrast=c("condition","Sterile_Filtrate","control")
 res <- results(dds2,alpha=alpha,contrast=contrast,parallel=T)
 summary(res)
 res.merge <- left_join(rownames_to_column(as.data.frame(res)),go_annot,by=c("rowname"="GENE_ID"))
-write.table(res.merge,"w6_Sterile_Filtrate_vs_ctrl.txt",sep="\t",quote=F,row.names=F,na="")
-                 
+write.table(res.merge,paste(wk,"Sterile_Filtrate_vs_ctrl.txt",sep="_"),sep="\t",quote=F,row.names=F,na="")
+pdf(paste(wk,"Sterile_Filtrate_vs_ctrl_MA_plot.pdf",sep="_"))
+plot_ma(res.merge,textSize=22,textFont="sans")
+dev.off()                 
+                   
 # Sterile vs Sterile_Filtrate
 contrast=c("condition","Sterile","Sterile_Filtrate")
 res <- results(dds2,alpha=alpha,contrast=contrast,parallel=T)
 summary(res)
 res.merge <- left_join(rownames_to_column(as.data.frame(res)),go_annot,by=c("rowname"="GENE_ID"))
-write.table(res.merge,"w6_sterile_vs_Sterile_Filtrate.txt",sep="\t",quote=F,row.names=F,na="")
-            
+write.table(res.merge,paste(wk,"sterile_vs_Sterile_Filtrate.txt",sep="_"),sep="\t",quote=F,row.names=F,na="")
+pdf(paste(wk,"sterile_vs_Sterile_Filtrate_MA_plot.pdf",sep="_"))
+plot_ma(res.merge,textSize=22,textFont="sans")
+dev.off()                 
+             
 #===============================================================================
 #       PCA analysis
 #===============================================================================
@@ -157,11 +178,12 @@ write.table(res.merge,"w6_sterile_vs_Sterile_Filtrate.txt",sep="\t",quote=F,row.
 mypca <- des_to_pca(dds)
 df <- t(data.frame(t(mypca$x)*mypca$percentVar))
 pdf("AMF.pca.pdf",height=8,width=8)
-plotOrd(df,dds@colData,design="condition",shape="time",xlabel="PC1",ylabel="PC2", pointSize=3,textsize=12)
+plotOrd(df,dds@colData,design="condition",shape="block",xlabel="PC1",ylabel="PC2", pointSize=3,textsize=16)
 dev.off()
 
 # residual plot after removing block
 pc.res <- resid(aov(mypca$x~dds$block))
 df <- data.frame(pc.res[,1]*mypca$percentVar[1],pc.res[,2]*mypca$percentVar[2])
-plotOrd(df,dds@colData,design="condition",xlabel="PC1",ylabel="PC2", pointSize=3,textsize=12)
-    
+pdf("AMF_deblocked.pca.pdf",height=8,width=8)
+plotOrd(df,dds@colData,design="condition",shape="time",xlabel="PC1",ylabel="PC2", pointSize=3,textsize=16,ylims=c(-10,10))
+dev.off()    
