@@ -8,3 +8,7 @@ Genome guided will have an extra step of aligning reads to the reference genome.
 
 ## Described here is the analysis using the <i>Diploid</i> genome
 
+#### Pipeline implementing STAR
+RNA-seq_pipeline.sh
+#### Pipeline implementing SALMON
+RNA-seq_pipeline_salmon.sh
