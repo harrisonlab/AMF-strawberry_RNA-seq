@@ -40,6 +40,3 @@ for FR in $PROJECT_FOLDER/data/trimmed/*_1.fq.gz; do
  $FR $RR \
  $PROJECT_FOLDER/filtered
 done
-
-# build Salmon index
-salmon index -t $PROJECT_FOLDER/data/genome/transcriptome.fasta -i $PROJECT_FOLDER/data/genome/SALMON_quasi
