@@ -33,10 +33,10 @@ for FR in $PROJECT_FOLDER/data/fastq/*_1.fq.gz; do
 done
 
 # filter phix etc. (this is memory intensive)
-for FR in $PROJECT_FOLDER/data/trimmed/*_1.fq.gz; do
- RR=$(sed 's/\_1\.fq/\_2\.fq/' <<<$FR)
- $PROJECT_FOLDER/RNA-seq_pipeline/scripts/PIPELINE.sh -c filter \
- $PROJECT_FOLDER/RNA-seq_pipeline/phix/phix \
- $FR $RR \
- $PROJECT_FOLDER/filtered
+for FR in $PROJECT_FOLDER/data/trimmed/*_1.fq.gz.trimmed.fq; do
+  RR=$(sed 's/\_1\.fq/\_2\.fq/' <<<$FR)
+  $PROJECT_FOLDER/RNA-seq_pipeline/scripts/PIPELINE.sh -c filter \
+  $PROJECT_FOLDER/RNA-seq_pipeline/phix/phix \
+  $FR $RR \
+  $PROJECT_FOLDER/filtered
 done
