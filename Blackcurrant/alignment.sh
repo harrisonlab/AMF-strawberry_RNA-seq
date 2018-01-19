@@ -6,14 +6,15 @@ salmon index -t $PROJECT_FOLDER/data/genome/transcriptome.fasta -i $PROJECT_FOLD
 \ >trans_2_gene.txt
 
 # psuesdo-alignment (note names of unmapped reads have been retained for later use...)
-for FR in $PROJECT_FOLDER/data/filtered/*_1.filtered.fq.gz; do
+for FR in $PROJECT_FOLDER/data/filtered/*_f.filtered.fq.gz; do
  RR=$(sed 's/_1/_2/' <<< $FR)
+ RR=$(sed 's/\.f\./\.r\./' <<< $RR)
  OUTDIR=$(awk -F"/" '{print $NF}' <<< $FR|sed 's/_.*//')
  $PROJECT_FOLDER/RNA-seq_pipeline/scripts/PIPELINE.sh -c salmon \
- $PROJECT_FOLDER/data/genome/SALMON_quasi \
+ $PROJECT_FOLDER/data/genome/SALMON_index \
  $PROJECT_FOLDER/data/counts/$OUTDIR \
  $FR $RR \
- --numBootstraps 1000 --dumpEq --seqBias --gcBias --writeUnmappedNames -g trans_2_gene.txt
+ --numBootstraps 1000 --dumpEq --seqBias --gcBias --writeUnmappedNames
 done
 
 # -g checking trans_2_gene.txt should match trans2gene.txt
