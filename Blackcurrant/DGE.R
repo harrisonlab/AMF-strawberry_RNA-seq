@@ -27,7 +27,7 @@ library(readr)
 tx2gene <- read.table("trans2gene.txt",header=T,sep="\t")
 
 # import quantification files	    
-txi.reps <- tximport(paste(list.dirs(".",full.names=T,recursive=F),"/quant.sf",sep=""),type="salmon",tx2gene=tx2gene,txOut=T)	    
+txi.reps <- tximport(paste(list.dirs("counts",full.names=T,recursive=F),"/quant.sf",sep=""),type="salmon",tx2gene=tx2gene,txOut=T)	    
 	    
 # get the sample names from the folders	    
 mysamples <- list.dirs(".",full.names=F,recursive=F)
