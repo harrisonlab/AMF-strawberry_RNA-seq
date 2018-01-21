@@ -30,7 +30,7 @@ tx2gene <- read.table("trans2gene.txt",header=T,sep="\t")
 txi.reps <- tximport(paste(list.dirs("counts",full.names=T,recursive=F),"/quant.sf",sep=""),type="salmon",tx2gene=tx2gene,txOut=T)	    
 	    
 # get the sample names from the folders	    
-mysamples <- list.dirs(".",full.names=F,recursive=F)
+mysamples <- list.dirs("counts",full.names=F,recursive=F)
 
 # summarise to gene level (this can be done in the tximport step, but is easier to understand in two steps)
 txi.genes <- summarizeToGene(txi.reps,tx2gene)
