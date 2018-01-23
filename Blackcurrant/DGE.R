@@ -36,7 +36,9 @@ mysamples <- list.dirs("counts",full.names=F,recursive=F)
 txi.genes <- summarizeToGene(txi.reps,tx2gene)
 
 # set the sample names for txi.genes
-invisible(sapply(seq(1,3), function(i) colnames(txi.genes[[i]])<<-mysamples))
+invisible(sapply(seq(1,3), function(i) {
+	colnames(txi.genes[[i]])<<-mysamples)
+})
 
 #==========================================================================================
 #       Read sample metadata and annotations
@@ -60,22 +62,51 @@ annotations <- read.table("annotations.txt", sep="\t",header=T)
 
 # create dds object from Salmon counts and sample metadata (library size normalisation is takne from the length estimates)		 
 dds <- DESeqDataSetFromTximport(txi.genes,colData,~1)	    
-   	    
-# define the DESeq 'GLM' model	    
-design=~condition
-
-# add design to DESeq object	    
-design(dds) <- design
-
-# Run the DESeq statistical model	    
-dds <- DESeq(dds,parallel=T)
 
 # set the significance level for BH adjustment	    
 alpha <- 0.05
+		 
+# Chill hours		 
+dds$Chill.hours[is.na(dds$Chill.hours)] <- 0
+dds$Chill.hours <- as.factor(dds$Chill.hours)
+design=~Chill.hours
+design(dds) <- design
+dds <- DESeq(dds,parallel=T)
+disp <- dispersions(dds)
+res_chill <-  results(dds,alpha=alpha,parallel=T,contrast=c("Chill.hours","1597","398"))
+write.table(res_chill,"res_chill.tsv",sep="\t",quote=F)
 
-# calculate the results
-res <- results(dds,alpha=alpha)
-    
+# Treatment effect
+dds$T_treat <- as.factor(paste(dds$Treatment,dds$Time_point,sep="_"))
+design=~T_treat
+design(dds) <- design
+dds <- nbinomWaldTest(dds)
+res_treat <- results(dds,parallel=T,contrast=c("T_treat","E3_24th.March.","None_24th.March."))
+write.table(res_treat,"res_treat.tsv",sep="\t",quote=F)
+	  
+# time effect
+full_design <- ~Time_point
+design(dds) <- full_design
+dds <- nbinomLRT(dds,reduced=~1)
+res_time <- results(dds,parallel=T)
+write.table(res_time,"res_time.tsv",sep="\t",quote=F)
+
+# treatment over time effect
+# no time 0 for treated - therefor can't estimate treatment effect (https://support.bioconductor.org/p/95929/)
+# the below will work though (effectively it's looking at the interaction effect at t1 and t2, compared to the time effect)
+mm <- model.matrix(~Time_point + Treatment:Time_point,colData(dds2))
+#mm <- model.matrix(~dds$Time_point + dds$Treatment*dds$Time_point)
+mm.full <- mm[,c(-4)]
+mm.reduced <- mm.full[,1:3]
+dds2 <- DESeq(dds2, full=mm.full, reduced=mm.reduced, test="LRT",parallel=T)
+res_treatment_time <- results(dds2,parallel=T)
+write.table(res_treatment_time,"res_treatment_time.tsv",sep="\t",quote=F)
+	  
+#full_design <- ~Time_point + Treatment + Time_point*Treatment
+#reduced <- ~Time_point + Treatment
+
+#dds <- nbinomLRT(dds,reduced=reduced)
+
 # merge results with annotations
 res.merged <- left_join(rownames_to_column(as.data.frame(res)),annotations,by=c("rowname"="query_id"))
 	
@@ -97,7 +128,7 @@ mypca <- des_to_pca(dds)
 df <- t(data.frame(t(mypca$x)*mypca$percentVar))
 
 # plot
-ggsave("pca.pdf",plotOrd(df,dds@colData,design="condition",xlabel="PC1",ylabel="PC2", pointSize=3,textsize=14))
+ ggsave("pca.pdf",plotOrd(df,dds@colData,design="Time_point",shapes=c("Treatment","Description"),alpha=0.75,))
 
 # MA plots	
 pdf("MA_plots.pdf")
