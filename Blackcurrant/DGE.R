@@ -80,20 +80,22 @@ write.table(res_chill,"res_chill.tsv",sep="\t",quote=F)
 dds$T_treat <- as.factor(paste(dds$Treatment,dds$Time_point,sep="_"))
 design=~T_treat
 design(dds) <- design
-dds <- nbinomWaldTest(dds)
+dds <-  DESeq(dds,parallel=T)
 res_treat <- results(dds,parallel=T,contrast=c("T_treat","E3_24th.March.","None_24th.March."))
 write.table(res_treat,"res_treat.tsv",sep="\t",quote=F)
 	  
 # time effect
 full_design <- ~Time_point
 design(dds) <- full_design
-dds <- nbinomLRT(dds,reduced=~1)
+dds <- DESeq(dds,reduced=~1,parallel=T,test="LRT")
 res_time <- results(dds,parallel=T)
 write.table(res_time,"res_time.tsv",sep="\t",quote=F)
 
 # treatment over time effect
-# no time 0 for treated - therefor can't estimate treatment effect (https://support.bioconductor.org/p/95929/)
+# no time 0 for treated - therefore can't estimate treatment effect (https://support.bioconductor.org/p/95929/)
 # the below will work though (effectively it's looking at the interaction effect at t1 and t2, compared to the time effect)
+dds2 <- dds[,dds$Time_point!="22nd Feb "]
+dds2$Time_point <- droplevels(dds2$Time_point)	  
 mm <- model.matrix(~Time_point + Treatment:Time_point,colData(dds2))
 #mm <- model.matrix(~dds$Time_point + dds$Treatment*dds$Time_point)
 mm.full <- mm[,c(-4)]
