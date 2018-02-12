@@ -77,7 +77,7 @@ res_chill <-  results(dds,alpha=alpha,parallel=T,contrast=c("Chill.hours","1597"
 res.merged <- left_join(rownames_to_column(as.data.frame(res_chill)),annotations,by=c("rowname"="GENE_ID"))
 colnames(res.merged)[1] <- "GENE_ID"
 write.table(res.merged,"res_chill.tlb",sep="\t",quote=F,na="",row.names=F)
-
+	  
 # Treatment effect
 dds$T_treat <- as.factor(paste(dds$Treatment,dds$Time_point,sep="_"))
 design=~T_treat
@@ -87,6 +87,12 @@ res_treat <- results(dds,parallel=T,contrast=c("T_treat","E3_24th.March.","None_
 res.merged <- left_join(rownames_to_column(as.data.frame(res_treat)),annotations,by=c("rowname"="GENE_ID"))
 colnames(res.merged)[1] <- "GENE_ID"
 write.table(res.merged,"res_treat.tlb",sep="\t",quote=F,na="",row.names=F)
+
+res_treat_tp1 <- results(dds,parallel=T,contrast=c("T_treat","E3_20th March","None_20th March"))
+res.merged <- left_join(rownames_to_column(as.data.frame(res_treat_tp1)),annotations,by=c("rowname"="GENE_ID"))
+colnames(res.merged)[1] <- "GENE_ID"
+write.table(res.merged,"res_treat_tp1.tlb",sep="\t",quote=F,na="",row.names=F)
+	  
 	  
 # time effect
 full_design <- ~Time_point
