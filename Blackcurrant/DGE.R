@@ -54,7 +54,7 @@ colData <- colData[mysamples,]
 colData <- colData[colnames(countData),]
 		 
 # get annotations     
-annotations <- fread("annotations.txt", sep="\t",header=T)	  
+annotations <- fread("ip_annotations.txt", sep="\t",header=T)	  
 
 #===============================================================================
 #       DESeq2 analysis
@@ -74,8 +74,8 @@ design(dds) <- design
 dds <- DESeq(dds,parallel=T)
 disp <- dispersions(dds)
 res_chill <-  results(dds,alpha=alpha,parallel=T,contrast=c("Chill.hours","1597","398"))
-res.merged <- left_join(rownames_to_column(as.data.frame(res_chill)),annotations,by=c("rowname"="GENE_ID"))
-colnames(res.merged)[1] <- "GENE_ID"
+res.merged <- left_join(rownames_to_column(as.data.frame(res_chill)),annotations,by=c("rowname"="GENE"))
+colnames(res.merged)[1] <- "GENE"
 write.table(res.merged,"res_chill.tlb",sep="\t",quote=F,na="",row.names=F)
 	  
 # Treatment effect
@@ -84,13 +84,13 @@ design=~T_treat
 design(dds) <- design
 dds <-  DESeq(dds,parallel=T)
 res_treat <- results(dds,parallel=T,contrast=c("T_treat","E3_24th.March.","None_24th.March."))
-res.merged <- left_join(rownames_to_column(as.data.frame(res_treat)),annotations,by=c("rowname"="GENE_ID"))
-colnames(res.merged)[1] <- "GENE_ID"
+res.merged <- left_join(rownames_to_column(as.data.frame(res_treat)),annotations,by=c("rowname"="GENE"))
+colnames(res.merged)[1] <- "GENE"
 write.table(res.merged,"res_treat.tlb",sep="\t",quote=F,na="",row.names=F)
 
 res_treat_tp1 <- results(dds,parallel=T,contrast=c("T_treat","E3_20th March","None_20th March"))
-res.merged <- left_join(rownames_to_column(as.data.frame(res_treat_tp1)),annotations,by=c("rowname"="GENE_ID"))
-colnames(res.merged)[1] <- "GENE_ID"
+res.merged <- left_join(rownames_to_column(as.data.frame(res_treat_tp1)),annotations,by=c("rowname"="GENE"))
+colnames(res.merged)[1] <- "GENE"
 write.table(res.merged,"res_treat_tp1.tlb",sep="\t",quote=F,na="",row.names=F)
 	  
 	  
@@ -99,8 +99,8 @@ full_design <- ~Time_point
 design(dds) <- full_design
 dds <- DESeq(dds,reduced=~1,parallel=T,test="LRT")
 res_time <- results(dds,parallel=T)
-res.merged <- left_join(rownames_to_column(as.data.frame(res_time)),annotations,by=c("rowname"="GENE_ID"))
-colnames(res.merged)[1] <- "GENE_ID"
+res.merged <- left_join(rownames_to_column(as.data.frame(res_time)),annotations,by=c("rowname"="GENE"))
+colnames(res.merged)[1] <- "GENE"
 write.table(res.merged,"res_time.tlb",sep="\t",quote=F,na="",row.names=F)
 
 
@@ -115,8 +115,8 @@ mm.full <- mm[,c(-4)]
 mm.reduced <- mm.full[,1:3]
 dds2 <- DESeq(dds2, full=mm.full, reduced=mm.reduced, test="LRT",parallel=T)
 res_treatment_time <- results(dds2,parallel=T)
-res.merged <- left_join(rownames_to_column(as.data.frame(res_treatment_time)),annotations,by=c("rowname"="GENE_ID"))
-colnames(res.merged)[1] <- "GENE_ID"
+res.merged <- left_join(rownames_to_column(as.data.frame(res_treatment_time)),annotations,by=c("rowname"="GENE"))
+colnames(res.merged)[1] <- "GENE"
 write.table(res.merged,"res_treatment_time.tlb",sep="\t",quote=F,na="",row.names=F)
 	  
 #full_design <- ~Time_point + Treatment + Time_point*Treatment
